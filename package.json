@@ -1,0 +1,17 @@
+{
+  "name": "chai",
+  "version": "1.0.0",
+  "description": "A fancy chat application",
+  "main": "index.js",
+  "repository": "git@github.com:lb0dl/chai.git",
+  "author": "Laurin & Dario",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^5.3.0",
+    "nx": "14.5.2"
+  }
+}
