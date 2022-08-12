@@ -14,7 +14,11 @@
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
     "@nestjs/config": "^2.2.0",
-    "@nestjs/schematics": "^9.0.1"
+    "@nestjs/schematics": "^9.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.8",
