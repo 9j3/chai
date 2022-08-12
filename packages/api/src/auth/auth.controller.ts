@@ -9,7 +9,7 @@ export class AuthController {
   @Get('hello')
   signup() {
     return {
-      hello : 'worlds',
+      hello : 'worslds',
     };
   }
 }
