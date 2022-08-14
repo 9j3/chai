@@ -39,7 +39,7 @@ describe('E2E Login', () => {
     it('should not login due to wrong username', async () => {
         await request(app.getHttpServer())
             .post('/api/auth/login')
-            .send({username: 'usrnamenotavalibl', password: 'pws'})
+            .send({username: 'usrnamenotavalible', password: 'pws'})
             .expect(401);
     });
 
