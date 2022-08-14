@@ -38,7 +38,7 @@ export class AuthenticationController {
     const user = await this.users.createUserFromRequest(body);
 
     const token = await this.tokens.generateAccessToken(user);
-    const refresh = await this.tokens.generateRefreshToken(user, 60 * 60 * 24 * 30);
+    const refresh = await this.tokens.generateRefreshToken(user, 60 * 60 * 24 * 30);  // 30 days
 
     const payload = this.buildResponsePayload(user, token, refresh);
 
