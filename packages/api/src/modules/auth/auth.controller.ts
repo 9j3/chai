@@ -4,7 +4,6 @@ import { User, UsersService } from '../users/users.service';
 import { TokensService } from './token.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
-
 export interface AuthenticationPayload {
   user: User
   payload: {
@@ -95,7 +94,7 @@ export class AuthenticationController {
    *
    * @param request
    */
-  @Get('/me')
+  @Get('/profile')
   @UseGuards(JwtAuthGuard)
   public async getUser(@Req() request) {
     const userId = request.user.id;

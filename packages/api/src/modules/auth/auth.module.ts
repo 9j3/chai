@@ -4,12 +4,13 @@ import { UsersModule } from '../users/users.module';
 import { AuthenticationController } from './auth.controller';
 import { TokensService } from './token.service';
 import { RefreshTokensRepository } from './refresh-token.repository';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'supersecret',
+      secret: 'secret',
       signOptions: {
         expiresIn: '5m',
       },
@@ -20,6 +21,7 @@ import { RefreshTokensRepository } from './refresh-token.repository';
     AuthenticationController,
   ],
   providers: [
+    JwtStrategy,
     TokensService,
     RefreshTokensRepository,
   ],
