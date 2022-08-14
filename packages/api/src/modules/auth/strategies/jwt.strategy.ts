@@ -12,6 +12,10 @@ export interface AccessTokenPayload {
 export class JwtStrategy extends PassportStrategy(Strategy) {
   private users: UsersService;
 
+  /**
+   *
+   * @param users
+   */
   public constructor(users: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -25,6 +29,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     this.users = users;
   }
 
+  /**
+   *
+   * @param payload
+   */
   async validate(payload: AccessTokenPayload): Promise<User> {
     const { sub: id } = payload;
 

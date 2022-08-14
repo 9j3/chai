@@ -6,8 +6,8 @@ import { UsersRepository } from '../users/user.repository';
 import { User } from '../users/users.service';
 
 const BASE_OPTIONS: SignOptions = {
-  issuer: 'https://my-app.com',
-  audience:'https://my-app.com',
+  issuer: 'https://example.tekoproject.local',
+  audience:'chai-vue-frontend',
 };
 
 export interface RefreshToken {
@@ -52,7 +52,7 @@ export class TokensService {
       subject: String(user.userId),
     };
 
-    return this.jwt.signAsync({}, opts);
+    return this.jwt.sign({}, opts);
   }
 
   /**

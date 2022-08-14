@@ -1,14 +1,14 @@
 import {INestApplication} from '@nestjs/common';
 import {Test} from '@nestjs/testing';
 import * as request from 'supertest';
-import {AppModule} from "../../../src/app.module";
+import {ApplicationModule} from "../../../src/app.module";
 
 describe('E2E Login', () => {
     let app: INestApplication;
 
     beforeAll(async () => {
         const modRef = await Test.createTestingModule({
-            imports: [AppModule],
+            imports: [ApplicationModule],
         }).compile();
 
         app = modRef.createNestApplication();
@@ -21,9 +21,9 @@ describe('E2E Login', () => {
             .send({username: 'bruno', password: 'pw'})
             .expect(201);
 
-        const token = loginReq.body.access_token;
+        const token = loginReq.body.data.payload.token;
         return request(app.getHttpServer())
-            .get('/api/profile')
+            .get('/api/auth/profile')
             .set('Authorization', 'Bearer ' + token)
             .expect(200)
             .expect({userId: 3, username: 'bruno'});
@@ -54,7 +54,7 @@ describe('E2E Register', () => {
 
     beforeAll(async () => {
         const modRef = await Test.createTestingModule({
-            imports: [AppModule],
+            imports: [ApplicationModule],
         }).compile();
 
         app = modRef.createNestApplication();
