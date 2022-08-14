@@ -9,7 +9,7 @@ export class LoginRequest {
 }
 
 export class RegisterRequest {
-  @IsNotEmpty({ message: 'An username is required' })
+  @IsNotEmpty({ message: 'A username is required' })
   readonly username: string;
 
   @IsNotEmpty({ message: 'A password is required' })
