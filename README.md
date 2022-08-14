@@ -1,5 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![](http://shields.io/packagist/myproj.png)](link) [![](http://shields.io/semver/v2.0.0.png)](link)
+[![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)]
+
 
 # chai
 a fancy chat application
