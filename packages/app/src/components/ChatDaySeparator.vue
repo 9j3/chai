@@ -1,6 +1,9 @@
 <script setup>
 const props = defineProps({
-    dateString: String
+    dateString: {
+        type: String,
+        required: true
+    }
 })
 </script>
 
