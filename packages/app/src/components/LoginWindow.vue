@@ -1,6 +1,22 @@
 <script setup>
 function loginUser() {
-    console.log('login');
+    const usernameBox = document.getElementById('username-input')
+    const passwordBox = document.getElementById('password-input')
+
+    if (usernameBox.value && passwordBox.value){
+        const request= new Request(
+          'http://localhost:3000/api/auth/login',  // todo: change url
+          {
+            method: 'POST',
+            headers: {username: usernameBox.value, password: passwordBox.value},
+          }
+        );
+
+        fetch(request).then(response => console.log(response));
+    }
+    else {
+        console.log('missing credentials');
+    }
 }
 
 function resetPassword() {
