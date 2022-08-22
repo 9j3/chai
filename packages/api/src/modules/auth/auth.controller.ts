@@ -57,7 +57,10 @@ export class AuthenticationController {
     const { username, password } = body;
 
     const user = await this.users.findForUsername(username);
-    const valid = user ? await this.users.validateCredentials(user, password) : false;
+
+    console.log(body);
+
+    const valid = user ? this.users.validateCredentials(user, password) : false;
 
     if (!valid) {
       throw new UnauthorizedException('The login is invalid');
