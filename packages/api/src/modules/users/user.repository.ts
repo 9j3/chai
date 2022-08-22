@@ -1,29 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { User } from './users.service';
-
+import { Injectable } from '@nestjs/common'
+import { User } from './users.service'
 
 @Injectable()
 export class UsersRepository {
-  private readonly users: User[];
+  private readonly users: User[]
 
   public constructor() {
     this.users = [
       {
         userId: 1,
         username: 'dario',
-        password: 'changeme',
+        password: 'changeme'
       },
       {
         userId: 2,
         username: 'laurin',
-        password: 'secret',
+        password: 'secret'
       },
       {
         userId: 3,
         username: 'bruno',
-        password: 'pw',
-      },
-    ];
+        password: 'pw'
+      }
+    ]
   }
 
   /**
@@ -31,12 +30,12 @@ export class UsersRepository {
    * @param property
    * @param id
    */
-  public find(property : string, id: number | string): User | null {
-    return this.users.find(user => user[property] === id);
+  public find(property: string, id: number | string): User | null {
+    return this.users.find(user => user[property] === id)
   }
 
   /**
-   * 
+   *
    * @param username
    * @param password
    */
@@ -44,12 +43,11 @@ export class UsersRepository {
     const user = {
       username,
       password,
-      userId : this.users.length + 1,
-    };
+      userId: this.users.length + 1
+    }
 
-    this.users.push(user);
+    this.users.push(user)
 
-    return user;
+    return user
   }
-
 }

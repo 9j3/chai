@@ -16,17 +16,11 @@
     "removeComments": false,
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "types": ["jest", "node"],
-    "rootDir": ".",
-    "paths": {
-      "@vue/compat": ["packages/vue-compat/src"],
-      "@vue/*": ["packages/*/src"],
-      "vue": ["packages/vue/src"]
-    }
+    "types": ["jest", "node"]
   },
   "include": [
     "packages/global.d.ts",
     "packages/api/src",
-    "packages/api/__tests__",
+    "packages/api/__tests__"
   ]
 }

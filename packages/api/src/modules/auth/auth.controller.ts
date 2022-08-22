@@ -1,8 +1,16 @@
-import { Body, Controller, Get, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { RegisterRequest, LoginRequest, RefreshRequest } from '../../requests';
-import { User, UsersService } from '../users/users.service';
-import { TokensService } from './token.service';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UnauthorizedException,
+  UseGuards
+} from '@nestjs/common'
+import { RegisterRequest, LoginRequest, RefreshRequest } from '../../requests'
+import { User, UsersService } from '../users/users.service'
+import { TokensService } from './token.service'
+import { JwtAuthGuard } from './guards/jwt-auth.guard'
 
 export interface AuthenticationPayload {
   user: User
@@ -15,9 +23,9 @@ export interface AuthenticationPayload {
 
 @Controller('/api/auth')
 export class AuthenticationController {
-  private readonly users: UsersService;
+  private readonly users: UsersService
 
-  private readonly tokens: TokensService;
+  private readonly tokens: TokensService
 
   /**
    *
@@ -25,8 +33,8 @@ export class AuthenticationController {
    * @param tokens
    */
   public constructor(users: UsersService, tokens: TokensService) {
-    this.users = users;
-    this.tokens = tokens;
+    this.users = users
+    this.tokens = tokens
   }
 
   /**
@@ -35,17 +43,20 @@ export class AuthenticationController {
    */
   @Post('/register')
   public async register(@Body() body: RegisterRequest) {
-    const user = await this.users.createUserFromRequest(body);
+    const user = await this.users.createUserFromRequest(body)
 
-    const token = await this.tokens.generateAccessToken(user);
-    const refresh = await this.tokens.generateRefreshToken(user, 60 * 60 * 24 * 30);  // 30 days
+    const token = await this.tokens.generateAccessToken(user)
+    const refresh = await this.tokens.generateRefreshToken(
+      user,
+      60 * 60 * 24 * 30
+    ) // 30 days
 
-    const payload = this.buildResponsePayload(user, token, refresh);
+    const payload = this.buildResponsePayload(user, token, refresh)
 
     return {
       status: 'success',
-      data: payload,
-    };
+      data: payload
+    }
   }
 
   /**
@@ -54,24 +65,29 @@ export class AuthenticationController {
    */
   @Post('/login')
   public async login(@Body() body: LoginRequest) {
-    const { username, password } = body;
+    const { username, password } = body
 
-    const user = await this.users.findForUsername(username);
-    const valid = user ? await this.users.validateCredentials(user, password) : false;
+    const user = await this.users.findForUsername(username)
+    const valid = user
+      ? await this.users.validateCredentials(user, password)
+      : false
 
     if (!valid) {
-      throw new UnauthorizedException('The login is invalid');
+      throw new UnauthorizedException('The login is invalid')
     }
 
-    const token = await this.tokens.generateAccessToken(user);
-    const refresh = await this.tokens.generateRefreshToken(user, 60 * 60 * 24 * 30);  // 30 days
+    const token = await this.tokens.generateAccessToken(user)
+    const refresh = await this.tokens.generateRefreshToken(
+      user,
+      60 * 60 * 24 * 30
+    ) // 30 days
 
-    const payload = this.buildResponsePayload(user, token, refresh);
+    const payload = this.buildResponsePayload(user, token, refresh)
 
     return {
       status: 'success',
-      data: payload,
-    };
+      data: payload
+    }
   }
 
   /**
@@ -80,14 +96,16 @@ export class AuthenticationController {
    */
   @Post('/refresh')
   public async refresh(@Body() body: RefreshRequest) {
-    const { user, token } = await this.tokens.createAccessTokenFromRefreshToken(body.refresh_token);
+    const { user, token } = await this.tokens.createAccessTokenFromRefreshToken(
+      body.refresh_token
+    )
 
-    const payload = this.buildResponsePayload(user, token);
+    const payload = this.buildResponsePayload(user, token)
 
     return {
       status: 'success',
-      data: payload,
-    };
+      data: payload
+    }
   }
 
   /**
@@ -97,14 +115,14 @@ export class AuthenticationController {
   @Get('/profile')
   @UseGuards(JwtAuthGuard)
   public async getUser(@Req() request) {
-    const userId = request.user.id;
+    const userId = request.user.id
 
-    const user = await this.users.findForId(userId);
+    const user = await this.users.findForId(userId)
 
     return {
       status: 'success',
-      data: user,
-    };
+      data: user
+    }
   }
 
   /**
@@ -114,14 +132,18 @@ export class AuthenticationController {
    * @param refreshToken
    * @private
    */
-  private buildResponsePayload(user: User, accessToken: string, refreshToken?: string): AuthenticationPayload {
+  private buildResponsePayload(
+    user: User,
+    accessToken: string,
+    refreshToken?: string
+  ): AuthenticationPayload {
     return {
       user: user,
       payload: {
         type: 'bearer',
         token: accessToken,
-        ...(refreshToken ? { refresh_token: refreshToken } : {}),
-      },
-    };
+        ...(refreshToken ? { refresh_token: refreshToken } : {})
+      }
+    }
   }
 }
