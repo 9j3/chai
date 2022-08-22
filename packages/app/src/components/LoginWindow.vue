@@ -1,14 +1,19 @@
 <script setup>
-function loginUser() {
-    const usernameBox = document.getElementById('username-input')
-    const passwordBox = document.getElementById('password-input')
 
-    if (usernameBox.value && passwordBox.value){
+import {ref} from "vue";
+
+const username = ref();
+const password = ref();
+
+
+function loginUser() {
+
+    if (username.value && password.value){
         const request= new Request(
           'http://localhost:3000/api/auth/login',  // todo: change url
           {
             method: 'POST',
-            headers: {username: usernameBox.value, password: passwordBox.value},
+            body: JSON.stringify({username: usernameBox.value, password: passwordBox.value})
           }
         );
 
@@ -39,6 +44,7 @@ function createAccount() {
           <label class="font-semibold text-sm text-gray-600 pb-1 block">Username</label>
           <input
             id="username-input"
+            v-model="username"
             type="text"
             class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
           >

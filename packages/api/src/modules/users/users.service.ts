@@ -27,7 +27,7 @@ export class UsersService {
    * @param user
    * @param password
    */
-  public async validateCredentials(user: User, password: string): Promise<boolean> {
+  public validateCredentials(user: User, password: string): boolean {
     return password === user.password;
   }
 
@@ -59,7 +59,7 @@ export class UsersService {
    *
    * @param username
    */
-  public async findForUsername(username: string): Promise<User | null> {
+  public findForUsername(username: string): User {
     return this.users.find('username', username);
   }
 
