@@ -4,7 +4,7 @@ import { fetchWrapper } from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore } from '@/stores';
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
+const baseUrl = `http://localhost:3000/api/auth`;
 
 export const useAuthStore = defineStore({
     id: 'auth',
@@ -16,7 +16,7 @@ export const useAuthStore = defineStore({
     actions: {
         async login(username, password) {
             try {
-                const user = await fetchWrapper.post(`${baseUrl}/authenticate`, { username, password });
+                const user = await fetchWrapper.post(`${baseUrl}/login`, { username, password });
 
                 // update pinia state
                 this.user = user;
