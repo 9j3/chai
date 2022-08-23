@@ -1,16 +1,18 @@
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useAuthStore } from '@/stores';
-const authStore = useAuthStore();
-const { user } = storeToRefs(authStore);
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores'
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
 </script>
 
 <template>
   <div v-if="user">
     <div class="p-5 h-screen w-full bg-amber-500">
-      <div class=" h-full bg-white overflow-hidden flex flex-col rounded-xl overflow-hidden shadow-xl">
+      <div
+        class="h-full bg-white overflow-hidden flex flex-col rounded-xl overflow-hidden shadow-xl"
+      >
         <!-- navbar -->
-        <div class=" border-b px-5 py-1 flex justify-between items-center">
+        <div class="border-b px-5 py-1 flex justify-between items-center">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -26,14 +28,8 @@ const { user } = storeToRefs(authStore);
                   x1="512"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop
-                    offset="0"
-                    stop-color="#00b2ff"
-                  />
-                  <stop
-                    offset="1"
-                    stop-color="#006aff"
-                  />
+                  <stop offset="0" stop-color="#00b2ff" />
+                  <stop offset="1" stop-color="#006aff" />
                 </linearGradient>
                 <path
                   d="M512 11.5c-280 0-497 205.1-497 482.1 0 144.9 59.4 270.1 156.1 356.6 8.1 7.3 13 17.4 13.4 28.3l2.7 88.4c.9 28.2 30 46.5 55.8 35.2l98.6-43.5c8.4-3.7 17.7-4.4 26.5-2 45.3 12.5 93.6 19.1 143.9 19.1 280 0 497-205.1 497-482.1S792 11.5 512 11.5z"
@@ -47,14 +43,16 @@ const { user } = storeToRefs(authStore);
                   clip-rule="evenodd"
                   fill="#fff"
                 />
-              </g>
-            </svg></span>
+              </g></svg
+          ></span>
           <!-- search -->
           <div
-            class=" w-1/2 relative focus-within:shadow-lg"
+            class="w-1/2 relative focus-within:shadow-lg"
             x-data="{ search : false }"
           >
-            <div class="flex items-center w-full focus-within:border px-3 py-2  focus-within:border-b-0">
+            <div
+              class="flex items-center w-full focus-within:border px-3 py-2 focus-within:border-b-0"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 stroke-slate-300 mr-5"
@@ -73,20 +71,17 @@ const { user } = storeToRefs(authStore);
                 type="text"
                 x-on:click=" search =! search "
                 placeholder="Search.."
-                class=" w-full outline-none placeholder:text-slate-300 font-semibold"
-              >
+                class="w-full outline-none placeholder:text-slate-300 font-semibold"
+              />
             </div>
             <!-- alpine js  -->
             <div
-              class="absolute w-full  border   bg-white    "
+              class="absolute w-full border bg-white"
               x-data="alpineInstance()"
               x-show="search"
               @click.outside="search = false"
             >
-              <template
-                :key="user.id"
-                x-for="user in users"
-              >
+              <template :key="user.id" x-for="user in users">
                 <div
                   class="w-full px-4 py-3 border-b last:border-b-0 flex items-start hover:bg-slate-50 cursor-pointer"
                 >
@@ -94,7 +89,7 @@ const { user } = storeToRefs(authStore);
                     x-bind:src="user.image"
                     class="h-12 w-12 border rounded-full"
                     alt=""
-                  >
+                  />
                   <div class="ml-4">
                     <p
                       x-text="user.name"
@@ -113,7 +108,7 @@ const { user } = storeToRefs(authStore);
           <div class="flex space-x-4 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 stroke-slate-400 "
+              class="h-6 w-6 stroke-slate-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -134,7 +129,7 @@ const { user } = storeToRefs(authStore);
               src="https://source.unsplash.com/random/500x500/?face"
               class="h-10 w-10 rounded-full"
               alt=""
-            >
+            />
           </div>
         </div>
         <!-- body -->
@@ -142,23 +137,21 @@ const { user } = storeToRefs(authStore);
           <!-- slidebar 1 -->
           <!-- sidebar 2 -->
           <div class="h-full w-96 bg-slate-50 border-r flex flex-col">
-            <div class="h-16 border-b px-4 flex items-center justify-center space-x-4">
-              <div class="px-4 py-4 border-b-4 border-b-blue-500">
-                All
-              </div>
-              <div class="px-4 py-4 ">
-                Archived
-              </div>
+            <div
+              class="h-16 border-b px-4 flex items-center justify-center space-x-4"
+            >
+              <div class="px-4 py-4 border-b-4 border-b-blue-500">All</div>
+              <div class="px-4 py-4">Archived</div>
             </div>
             <div class="h-full">
               <div
-                class="px-5 py-4   flex items-center   cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
+                class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
               >
                 <img
                   src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHVzZXJzfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500"
                   class="h-12 w-12 border-2 border-white rounded-full"
                   alt=""
-                >
+                />
                 <div class="ml-4">
                   <p
                     x-text="user.name"
@@ -170,20 +163,19 @@ const { user } = storeToRefs(authStore);
                     class="text-xs text-slate-400 -mt-0.5 font-semibold"
                     x-text="user.email"
                   >
-                    is is long ipsum
-                    avaliable...
+                    is is long ipsum avaliable...
                   </p>
                 </div>
               </div>
 
               <div
-                class="px-5 py-4   flex items-center   cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
+                class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
               >
                 <img
                   src="https://images.unsplash.com/photo-1499887142886-791eca5918cd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHVzZXJzfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500 "
                   class="h-12 w-12 border-2 border-white rounded-full"
                   alt=""
-                >
+                />
                 <div class="ml-4">
                   <p
                     x-text="user.name"
@@ -201,13 +193,13 @@ const { user } = storeToRefs(authStore);
               </div>
 
               <div
-                class="px-5 py-4   flex items-center bg-white cursor-pointer border-l-4 border-l-blue-500 border-t border-b"
+                class="px-5 py-4 flex items-center bg-white cursor-pointer border-l-4 border-l-blue-500 border-t border-b"
               >
                 <img
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500 "
                   class="h-12 w-12 border-2 border-white rounded-full"
                   alt=""
-                >
+                />
                 <div class="ml-4">
                   <p
                     x-text="user.name"
@@ -225,13 +217,13 @@ const { user } = storeToRefs(authStore);
               </div>
 
               <div
-                class="px-5 py-4   flex items-center   cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
+                class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
               >
                 <img
                   src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                   class="h-12 w-12 border-2 border-white rounded-full"
                   alt=""
-                >
+                />
                 <div class="ml-4">
                   <p
                     x-text="user.name"
@@ -243,20 +235,19 @@ const { user } = storeToRefs(authStore);
                     class="text-xs text-slate-400 -mt-0.5 font-semibold"
                     x-text="user.email"
                   >
-                    We own hidden
-                    lake..
+                    We own hidden lake..
                   </p>
                 </div>
               </div>
 
               <div
-                class="px-5 py-4   flex items-center   cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
+                class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
               >
                 <img
                   src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHVzZXJzfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500"
                   class="h-12 w-12 border-2 border-white rounded-full"
                   alt=""
-                >
+                />
                 <div class="ml-4">
                   <p
                     x-text="user.name"
@@ -268,20 +259,19 @@ const { user } = storeToRefs(authStore);
                     class="text-xs text-slate-400 -mt-0.5 font-semibold"
                     x-text="user.email"
                   >
-                    is is long ipsum
-                    avaliable...
+                    is is long ipsum avaliable...
                   </p>
                 </div>
               </div>
 
               <div
-                class="px-5 py-4   flex items-center   cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
+                class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
               >
                 <img
                   src="https://images.unsplash.com/photo-1499887142886-791eca5918cd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHVzZXJzfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500 "
                   class="h-12 w-12 border-2 border-white rounded-full"
                   alt=""
-                >
+                />
                 <div class="ml-4">
                   <p
                     x-text="user.name"
@@ -298,22 +288,20 @@ const { user } = storeToRefs(authStore);
                 </div>
               </div>
 
-
-
               <!-- else -->
             </div>
           </div>
           <div class="w-full h-full flex flex-col">
-            <div class="h-16 border-b flex justify-between items-center w-full px-5 py-2 shadow-sm">
+            <div
+              class="h-16 border-b flex justify-between items-center w-full px-5 py-2 shadow-sm"
+            >
               <div class="flex items-center">
                 <img
                   class="h-10 w-10 overflow-hidden rounded-full"
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                   alt=""
-                >
-                <p class="font-semibold ml-3 text-slate-600">
-                  Mircel Jones
-                </p>
+                />
+                <p class="font-semibold ml-3 text-slate-600">Mircel Jones</p>
               </div>
               <div class="flex items-center space-x-5">
                 <svg
@@ -349,10 +337,12 @@ const { user } = storeToRefs(authStore);
             </div>
             <div class="h-full px-10 py-4">
               <!-- chat container -->
-              <div class="text-center  my-5">
-                <hr class="-mb-3">
-                <span class="text-xs text-slate-300 font-medium bg-white px-3 -mt-3">Wednesday, Feburary
-                  5</span>
+              <div class="text-center my-5">
+                <hr class="-mb-3" />
+                <span
+                  class="text-xs text-slate-300 font-medium bg-white px-3 -mt-3"
+                  >Wednesday, Feburary 5</span
+                >
               </div>
               <!-- messages -->
               <div class="w-full flex flex-start overflow-y-auto">
@@ -362,51 +352,58 @@ const { user } = storeToRefs(authStore);
                       class="h-5 w-5 overflow-hidden rounded-full"
                       src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                       alt=""
-                    >
+                    />
                     <p class="font-semibold ml-3 text-sm text-slate-600">
-                      Mircel Jones <span
-                        class="text-slate-400 text-xs"
-                      >3:21 PM</span>
+                      Mircel Jones
+                      <span class="text-slate-400 text-xs">3:21 PM</span>
                     </p>
                   </div>
 
-                  <div class="mt-3 w-full bg-slate-50 p-4 rounded-b-xl rounded-tr-xl">
-                    <p class=" text-sm text-slate-500">
-                      Hey all, <br>
-                      There are many variation of passages of Lorem ipsum avaliable, but the jority have alternation in some form , by injected humor, or randomise words which don't look even slightly believable.
+                  <div
+                    class="mt-3 w-full bg-slate-50 p-4 rounded-b-xl rounded-tr-xl"
+                  >
+                    <p class="text-sm text-slate-500">
+                      Hey all, <br />
+                      There are many variation of passages of Lorem ipsum
+                      avaliable, but the jority have alternation in some form ,
+                      by injected humor, or randomise words which don't look
+                      even slightly believable.
                     </p>
                   </div>
                 </div>
               </div>
               <!-- me -->
               <div class="w-full flex justify-end mt-3">
-                <div class="w-1/2 ">
+                <div class="w-1/2">
                   <div class="flex items-center justify-end">
                     <p class="font-semibold mr-3 text-sm text-slate-600">
-                      Me <span
-                        class="text-slate-400 text-xs"
-                      >3:25 PM</span>
+                      Me <span class="text-slate-400 text-xs">3:25 PM</span>
                     </p>
 
                     <img
                       class="h-5 w-5 overflow-hidden rounded-full"
                       src="https://source.unsplash.com/random/500x500/?face"
                       alt=""
-                    >
+                    />
                   </div>
 
-                  <div class="mt-3 w-full bg-amber-500 p-4 rounded-b-xl rounded-tl-xl">
-                    <p class=" text-sm text-white">
-                      Hey, <br>
-                      we are own hidden lake forest which is netural lake are generaly found in mountain.
+                  <div
+                    class="mt-3 w-full bg-amber-500 p-4 rounded-b-xl rounded-tl-xl"
+                  >
+                    <p class="text-sm text-white">
+                      Hey, <br />
+                      we are own hidden lake forest which is netural lake are
+                      generaly found in mountain.
                     </p>
                   </div>
                 </div>
               </div>
-              <div class="text-center  my-5">
-                <hr class="-mb-3">
-                <span class="text-xs text-slate-300 font-medium bg-white px-3 -mt-3">Today, 2:15 AM
-                  5</span>
+              <div class="text-center my-5">
+                <hr class="-mb-3" />
+                <span
+                  class="text-xs text-slate-300 font-medium bg-white px-3 -mt-3"
+                  >Today, 2:15 AM 5</span
+                >
               </div>
               <!-- messages -->
               <div class="w-full flex flex-start">
@@ -416,23 +413,20 @@ const { user } = storeToRefs(authStore);
                       class="h-5 w-5 overflow-hidden rounded-full"
                       src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                       alt=""
-                    >
+                    />
                     <p class="font-semibold ml-3 text-sm text-slate-600">
-                      Mircel Jones <span
-                        class="text-slate-400 text-xs"
-                      >3:21 PM</span>
+                      Mircel Jones
+                      <span class="text-slate-400 text-xs">3:21 PM</span>
                     </p>
                   </div>
 
-                  <div class="mt-3  bg-slate-50 p-4 rounded-b-xl rounded-tr-xl">
-                    <p class=" text-sm text-slate-500">
-                      ok, Thanks
-                    </p>
+                  <div class="mt-3 bg-slate-50 p-4 rounded-b-xl rounded-tr-xl">
+                    <p class="text-sm text-slate-500">ok, Thanks</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="  w-full  px-5 py-3">
+            <div class="w-full px-5 py-3">
               <div
                 class="h-12 flex justify-between px-3 items-center border border-transparent bg-slate-50 focus-within:border-slate-300 rounded-lg"
               >
@@ -440,7 +434,7 @@ const { user } = storeToRefs(authStore);
                   type="text"
                   class="w-full px-3 bg-transparent outline-none placeholder:text-slate-400"
                   placeholder="Type your message"
-                >
+                />
                 <div class="flex items-center space-x-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

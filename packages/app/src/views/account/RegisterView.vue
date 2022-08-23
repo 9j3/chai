@@ -1,40 +1,35 @@
 <script setup>
-import { Form, Field } from 'vee-validate';
-import * as Yup from 'yup';
+import { Form, Field } from 'vee-validate'
+import * as Yup from 'yup'
 
-import { useUsersStore, useAlertStore } from '@/stores';
-import { router } from '@/router';
+import { useUsersStore, useAlertStore } from '@/stores'
+import { router } from '@/router'
 
 const schema = Yup.object().shape({
-  firstName: Yup.string()
-      .required('First Name is required'),
-  lastName: Yup.string()
-      .required('Last Name is required'),
-  username: Yup.string()
-      .required('Username is required'),
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
+  username: Yup.string().required('Username is required'),
   password: Yup.string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters')
-});
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters')
+})
 
 async function onSubmit(values) {
-  const usersStore = useUsersStore();
-  const alertStore = useAlertStore();
+  const usersStore = useUsersStore()
+  const alertStore = useAlertStore()
   try {
-    await usersStore.register(values);
-    await router.push('/account/login');
-    alertStore.success('Registration successful');
+    await usersStore.register(values)
+    await router.push('/account/login')
+    alertStore.success('Registration successful')
   } catch (error) {
-    alertStore.error(error);
+    alertStore.error(error)
   }
 }
 </script>
 
 <template>
   <div class="card m-3">
-    <h4 class="card-header">
-      Register
-    </h4>
+    <h4 class="card-header">Register</h4>
     <div class="card-body">
       <Form
         v-slot="{ errors, isSubmitting }"
@@ -90,22 +85,14 @@ async function onSubmit(values) {
           </div>
         </div>
         <div class="form-group">
-          <button
-            class="btn btn-primary"
-            :disabled="isSubmitting"
-          >
+          <button class="btn btn-primary" :disabled="isSubmitting">
             <span
               v-show="isSubmitting"
               class="spinner-border spinner-border-sm mr-1"
             />
             Register
           </button>
-          <router-link
-            to="login"
-            class="btn btn-link"
-          >
-            Cancel
-          </router-link>
+          <router-link to="login" class="btn btn-link"> Cancel </router-link>
         </div>
       </Form>
     </div>
