@@ -4,11 +4,12 @@ import { useAuthStore } from '@/stores'
 import ChatDaySeparator from "./components/ChatDaySeparator.vue";
 import ChatBubble from "./components/ChatBubble.vue";
 import InputBox from "./components/InputBox.vue";
+import { reactive } from "vue";
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 const openChats = ['Alexander', 'Emma', 'Peter', 'Layla', 'Olivia', 'Sebastian'];
-const messages = [
+const messages = reactive([
   {
     sender: 'Layla',
     text: 'There are many variation of passages of Lorem ipsum avaliable, but the jority have alternation in some form, by injected humor, or randomise words which don\'t look even slightly believable.',
@@ -24,7 +25,19 @@ const messages = [
     text: 'ok haha',
     timestamp: '15:40'
   },
-]
+])
+
+/**
+ * todo
+ */
+function sendMessage() {
+  const messageBox = document.getElementById('message-input')
+  messages.push({ sender: 'me', text: messageBox.value, timestamp: new Date().toTimeString() });
+  messageBox.value = '';
+  // scrolling still todo
+  const messageContainer = document.getElementById('message-container')
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+}
 </script>
 
 <template>
@@ -75,14 +88,14 @@ const messages = [
             </div>
           </div>
           <!-- message container -->
-          <div class="h-full px-10 py-4 overflow-y-auto">
+          <div id="message-container" class="h-full px-10 py-4 overflow-y-auto">
             <ChatDaySeparator date-string="1.1.1900 or something" />
             <!-- messages -->
             <ChatBubble v-for="message in messages" :key="JSON.stringify(message)"
               :is-my-message="message.sender === 'me'" :message="message.text" :timestamp="message.timestamp" />
-            <ChatDaySeparator date-string="Today, 2:15 AM" />
+            <ChatDaySeparator id="tset" date-string="Today, 2:15 AM" />
           </div>
-          <InputBox />
+          <InputBox @send-message="sendMessage" />
         </div>
       </div>
     </div>
