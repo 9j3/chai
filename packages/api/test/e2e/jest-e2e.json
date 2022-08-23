@@ -1,10 +1,5 @@
 {
-  "moduleFileExtensions": [
-    "ts",
-    "tsx",
-    "js",
-    "json"
-  ],
+  "moduleFileExtensions": ["ts", "tsx", "js", "json"],
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
@@ -14,8 +9,5 @@
     "!**/node_modules/**",
     "!**/vendor/**"
   ],
-  "coverageReporters": [
-    "json",
-    "lcov"
-  ]
+  "coverageReporters": ["json", "lcov"]
 }
