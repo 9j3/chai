@@ -1,37 +1,38 @@
 <script setup>
-import {Form, Field} from 'vee-validate';
-import * as Yup from 'yup';
-import {useAuthStore} from '@/stores';
+import { Form, Field } from 'vee-validate'
+import * as Yup from 'yup'
+import { useAuthStore } from '@/stores'
 
 const schema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   password: Yup.string().required('Password is required')
-});
+})
 
 async function onSubmit(values) {
-  const authStore = useAuthStore();
-  const {username, password} = values;
-  await authStore.login(username, password);
+  const authStore = useAuthStore()
+  const { username, password } = values
+  await authStore.login(username, password)
 }
 </script>
 
 <template>
   <div class="h-screen flex">
-    <div class="flex w-1/2 bg-gradient-to-r from-orange-500 to-orange-300 i justify-around items-center">
+    <div
+      class="flex w-1/2 bg-gradient-to-r from-orange-500 to-orange-300 i justify-around items-center"
+    >
       <div>
         <h1 class="text-white font-bold text-4xl font-sans">
           chai<span class="text-amber-800">.space</span>
         </h1>
-        <p class="text-white mt-1">
-          Die Teams Alternative
-        </p>
+        <p class="text-white mt-1">Die Teams Alternative</p>
         <div class="flex space-x-3">
           <button
             type="submit"
             class="block w-36 space-3 bg-amber-800 text-white mt-4 py-2 rounded-2xl font-bold mb-2"
           >
             Neuer Benutzer?
-          </button>        <button
+          </button>
+          <button
             type="submit"
             class="block w-36 bg-white text-amber-800 mt-4 py-2 rounded-2xl font-bold mb-2"
           >
@@ -47,12 +48,8 @@ async function onSubmit(values) {
         :validation-schema="schema"
         @submit="onSubmit"
       >
-        <h1 class="text-gray-800 font-bold text-2xl mb-1">
-          Hello Again!
-        </h1>
-        <p class="text-sm font-normal text-gray-600 mb-7">
-          Welcome Back
-        </p>
+        <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
+        <p class="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
         <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +107,9 @@ async function onSubmit(values) {
         >
           Login
         </button>
-        <span class="text-sm ml-2 hover:text-blue-500 cursor-pointer">Forgot Password ?</span>
+        <span class="text-sm ml-2 hover:text-blue-500 cursor-pointer"
+          >Forgot Password ?</span
+        >
       </Form>
     </div>
   </div>
