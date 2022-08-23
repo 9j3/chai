@@ -37,7 +37,7 @@ const messages = [
             Chai
           </div>
           <div class="h-full overflow-y-auto">
-            <div v-for="(chat, index) in openChats" :key="index"
+            <div v-for="chat in openChats" :key="chat"
               class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100">
               <img src="https://avatars.githubusercontent.com/u/35639254"
                 class="h-12 w-12 border-2 border-white rounded-full" alt="">
@@ -78,8 +78,8 @@ const messages = [
           <div class="h-full px-10 py-4 overflow-y-auto">
             <ChatDaySeparator date-string="1.1.1900 or something" />
             <!-- messages -->
-            <ChatBubble v-for="(message, index) in messages" :key="index" :is-my-message="message.sender === 'me'"
-              :message="message.text" :timestamp="message.timestamp" />
+            <ChatBubble v-for="message in messages" :key="JSON.stringify(message)"
+              :is-my-message="message.sender === 'me'" :message="message.text" :timestamp="message.timestamp" />
             <ChatDaySeparator date-string="Today, 2:15 AM" />
           </div>
           <InputBox />
