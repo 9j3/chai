@@ -3,8 +3,9 @@ import { RegisterRequest } from '../../requests'
 import { UsersRepository } from './user.repository'
 
 export interface User {
-  userId: number
+  userId: string
   username: string
+  fullName?: string
   password: string
 }
 
@@ -54,6 +55,14 @@ export class UsersService {
    */
   public async findForId(id: number): Promise<User | null> {
     return this.users.find('userId', id)
+  }
+
+  /**
+   *
+   * @param id
+   */
+  public async findMany(): Promise<User[] | null> {
+    return this.users.findMany()
   }
 
   /**
