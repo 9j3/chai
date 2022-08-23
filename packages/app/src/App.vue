@@ -10,9 +10,8 @@ const { socket } = useSocketIO()
 
 // TODO: remove (just for demo purposes)
 setInterval(() => {
-  socket.emit("events", { foo : "bar"})
+  socket.emit('events', { foo: 'bar' })
 }, 3000)
-
 </script>
 
 <template>

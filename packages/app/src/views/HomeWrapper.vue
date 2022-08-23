@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from 'pinia'
-import { useAuthStore } from '@/stores'
+import { useAuthStore, useChatStore } from '@/stores'
 import { useUsersStore } from '@/stores'
 import { ChatSidebar } from '@/components'
 
@@ -10,7 +10,13 @@ const { user } = storeToRefs(authStore)
 const usersStore = useUsersStore()
 const { users } = storeToRefs(usersStore)
 
+const chatStore = useChatStore()
+const { selectedUserId } = storeToRefs(chatStore)
+
 usersStore.getAll()
+
+
+
 </script>
 
 <template>
@@ -20,12 +26,12 @@ usersStore.getAll()
         class="h-full bg-white overflow-hidden flex flex-col rounded-xl overflow-hidden shadow-xl"
       >
         <!-- navbar -->
-        <ChatSidebar/>
+        <ChatSidebar />
         <!-- body -->
         <div class="h-full flex">
           <!-- slidebar 1 -->
           <!-- sidebar 2 -->
-          <div  class="h-full w-96 bg-slate-50 border-r flex flex-col">
+          <div class="h-full w-96 bg-slate-50 border-r flex flex-col">
             <div
               class="h-16 border-b px-4 flex items-center justify-center space-x-4"
             >
@@ -33,10 +39,15 @@ usersStore.getAll()
               <div class="px-4 py-4">Archived</div>
             </div>
             <div class="h-full">
-
               <div
-                v-for='(chatUser, i) in users' :key='i'
+                v-for="(chatUser, i) in users"
+                :key="i"
                 class="px-5 py-4 flex items-center cursor-pointer border-l-4 border-l-transparent hover:bg-slate-100"
+                :class="[chatUser.userId === selectedUserId ? 'border-l-4 border-l-blue-500 border-t border-b' : '']"
+
+                @click='chatStore.$patch({
+                selectedUserId: chatUser.userId
+                })'
               >
                 <img
                   src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHVzZXJzfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500"
@@ -72,7 +83,7 @@ usersStore.getAll()
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                   alt=""
                 />
-                <p class="font-semibold ml-3 text-slate-600">Mircel Jones</p>
+                <p class="font-semibold ml-3 text-slate-600">getUserById({{selectedUserId}})</p>
               </div>
               <div class="flex items-center space-x-5">
                 <svg
