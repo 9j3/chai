@@ -60,7 +60,6 @@
           class="w-full outline-none placeholder:text-slate-300 font-semibold"
         />
       </div>
-
     </div>
     <!-- profile -->
     <div class="flex space-x-4 items-center">
