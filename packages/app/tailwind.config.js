@@ -7,6 +7,9 @@ module.exports = {
         primary: '#2563eb', // blue-600
         'primary-hover': '#1d4ed8', // blue-700
         'primary-lighter': '#60a5fa' // blue-400
+      },
+      height: {
+        topBar: 'h-20'
       }
     }
   },
