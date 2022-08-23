@@ -32,11 +32,14 @@ const messages = reactive([
  */
 function sendMessage() {
   const messageBox = document.getElementById('message-input')
-  messages.push({ sender: 'me', text: messageBox.value, timestamp: new Date().toTimeString() });
-  messageBox.value = '';
-  // scrolling still todo
-  const messageContainer = document.getElementById('message-container')
-  messageContainer.scrollTop = messageContainer.scrollHeight;
+  if (messageBox.value) {
+    messages.push({ sender: 'me', text: messageBox.value, timestamp: new Date().toTimeString() });
+    messageBox.value = '';
+
+    // scrolling still todo
+    const messageContainer = document.getElementById('message-container')
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
 }
 </script>
 
