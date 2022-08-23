@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { fetchWrapper } from '@/helpers'
 import { useAuthStore } from '@/stores'
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`
+const baseUrl = `http://localhost:3000/api/users`
 
 export const useUsersStore = defineStore({
   id: 'users',
@@ -29,7 +29,9 @@ export const useUsersStore = defineStore({
     async getAll() {
       this.users = { loading: true }
       try {
-        this.users = await fetchWrapper.get(baseUrl)
+        const { data } = await fetchWrapper.get(baseUrl)
+        console.log(data)
+        this.users = data
       } catch (error) {
         this.users = { error }
       }

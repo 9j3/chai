@@ -9,16 +9,18 @@ import { Server, Socket } from 'socket.io'
 import { from, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-@WebSocketGateway({ cors: '*:*' })
+@WebSocketGateway({
+  cors: {
+    origin: '*'
+  }
+})
 export class EventsGateway {
   @WebSocketServer()
   server: Server
 
   @SubscribeMessage('events')
   doStuff(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
-    console.log('client', client)
-    return { event: 'events', data }
-    return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })))
+    client.emit('hello', { date: Date.now() })
   }
 
   @SubscribeMessage('identity')
