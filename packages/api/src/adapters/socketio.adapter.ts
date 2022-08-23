@@ -14,7 +14,7 @@ export class SocketIoAdapter extends AbstractWsAdapter {
    */
   constructor(
     appOrHttpServer?: INestApplicationContext | any,
-    private readonly corsOrigins = []
+    private readonly corsOrigins = ['localhost']
   ) {
     super(appOrHttpServer)
   }

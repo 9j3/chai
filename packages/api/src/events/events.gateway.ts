@@ -9,7 +9,7 @@ import { Server, Socket } from 'socket.io'
 import { from, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: '*:*' })
 export class EventsGateway {
   @WebSocketServer()
   server: Server

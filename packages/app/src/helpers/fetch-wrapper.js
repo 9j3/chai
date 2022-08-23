@@ -49,7 +49,7 @@ async function handleResponse(response) {
       logout()
     }
 
-    // get error message from body or default to response status
+    // get error chat from body or default to response status
     const error = (data && data.message) || response.status
     return Promise.reject(error)
   }
