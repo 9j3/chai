@@ -12,7 +12,7 @@ const BASE_OPTIONS: SignOptions = {
 
 export interface RefreshToken {
   id: string
-  user_id: number
+  user_id: string
   is_revoked: boolean
   expires: Date
 }

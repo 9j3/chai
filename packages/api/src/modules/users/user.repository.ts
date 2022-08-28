@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { User } from './users.service'
+import { randomUUID } from 'crypto'
 
 @Injectable()
 export class UsersRepository {
@@ -8,18 +9,21 @@ export class UsersRepository {
   public constructor() {
     this.users = [
       {
-        userId: 1,
-        username: 'dario',
+        userId: randomUUID(),
+        username: 'bruno',
+        fullName: 'Bruno Hammer',
         password: 'changeme'
       },
       {
-        userId: 2,
-        username: 'laurin',
+        userId: randomUUID(),
+        username: 'irene',
+        fullName: 'Irene S. Mosig',
         password: 'secret'
       },
       {
-        userId: 3,
-        username: 'bruno',
+        userId: randomUUID(),
+        username: 'andi',
+        fullName: 'Andreas Holzer',
         password: 'pw'
       }
     ]
@@ -36,6 +40,14 @@ export class UsersRepository {
 
   /**
    *
+   * @param property
+   * @param id
+   */
+  public findMany(): User[] | null {
+    return this.users
+  }
+  /**
+   *
    * @param username
    * @param password
    */
@@ -43,7 +55,7 @@ export class UsersRepository {
     const user = {
       username,
       password,
-      userId: this.users.length + 1
+      userId: randomUUID()
     }
 
     this.users.push(user)

@@ -5,11 +5,13 @@ import { useAuthStore } from '@/stores'
 import { useSocketIO } from '@/socket'
 
 const authStore = useAuthStore()
+/** @type {Socket} */
 const { socket } = useSocketIO()
 
-socket.on('welcome', () => {
-  console.log('welcome')
-})
+// TODO: remove (just for demo purposes)
+setInterval(() => {
+  socket.emit('events', { foo: 'bar' })
+}, 3000)
 </script>
 
 <template>

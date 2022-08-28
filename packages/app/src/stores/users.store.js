@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 
 import { fetchWrapper } from '@/helpers'
-import { useAuthStore } from '@/stores'
+import { useAuthStore, useChatStore } from '@/stores'
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`
+const baseUrl = `http://localhost:3000/api/users`
 
 export const useUsersStore = defineStore({
   id: 'users',
   state: () => ({
-    users: {},
+    users: [],
     user: {}
   }),
   actions: {
@@ -27,9 +27,17 @@ export const useUsersStore = defineStore({
      * @returns {Promise<void>}
      */
     async getAll() {
-      this.users = { loading: true }
       try {
-        this.users = await fetchWrapper.get(baseUrl)
+        const { data } = await fetchWrapper.get(baseUrl)
+
+        // TODO: this is ugly but it works for the moment
+        const chatStore = useChatStore()
+        chatStore.$patch({
+          selectedUserId: data[0].userId
+        })
+
+        console.log(data)
+        this.users = data
       } catch (error) {
         this.users = { error }
       }
