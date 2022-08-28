@@ -1,0 +1,8 @@
+{
+   "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+   },
+   "prettier.vueIndentScriptAndStyle": true,
+   "editor.formatOnSave": true
+}

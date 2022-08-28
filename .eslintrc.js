@@ -1,10 +1,10 @@
 const DOMGlobals = ['window', 'document']
 const NodeGlobals = ['module', 'require']
 
+// eslint-disable-next-line no-restricted-globals
 module.exports = {
-  parser: '@typescript-eslint/parser',
   parserOptions: {
-    sourceType: 'module'
+    "ecmaVersion": "latest"
   },
   rules: {
     'no-debugger': 'error',
@@ -16,15 +16,23 @@ module.exports = {
     {
       files: ['packages/app/**'],
       extends: [
-        'eslint:recommended',
         'plugin:vue/vue3-recommended',
-        'prettier'
+        '@vue/eslint-config-airbnb'
       ],
       rules: {
-        'no-restricted-globals': ['error', ...DOMGlobals]
+        'no-restricted-globals': ['error', ...DOMGlobals],
+          "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "vue": "never"
+            }
+          ]
       }
     },
     {
+      parser: '@typescript-eslint/parser',
       files: ['packages/api/**'],
       rules: {
         'no-restricted-globals': ['error', ...NodeGlobals],
