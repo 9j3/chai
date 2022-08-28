@@ -4,9 +4,7 @@ import { useAuthStore, useChatStore } from '@/stores'
 import ChatDaySeparator from '../components/ChatDaySeparator.vue'
 import ChatBubble from '../components/ChatBubble.vue'
 import InputBox from '../components/InputBox.vue'
-import { reactive } from 'vue'
 import { useUsersStore } from '@/stores'
-// import { ChatSidebar } from '@/components'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
@@ -19,42 +17,15 @@ const { selectedUserId } = storeToRefs(chatStore)
 
 usersStore.getAll()
 
-const openChats = ['Alexander', 'Emma', 'Peter', 'Layla', 'Olivia', 'Sebastian']
-const messages = reactive([
-  {
-    sender: 'Layla',
-    text: "There are many variation of passages of Lorem ipsum avaliable, but the jority have alternation in some form, by injected humor, or randomise words which don't look even slightly believable.",
-    timestamp: '10:00 AM'
-  },
-  {
-    sender: 'me',
-    text: 'Hey, my example text is much nicer than yours.',
-    timestamp: '15:25'
-  },
-  {
-    sender: 'Layla',
-    text: 'ok haha',
-    timestamp: '15:40'
-  }
-])
-
 /**
  * todo
  */
-function sendMessage() {
-  const messageBox = document.getElementById('message-input')
-  if (messageBox.value) {
-    messages.push({
-      sender: 'me',
-      text: messageBox.value,
-      timestamp: new Date().toTimeString()
-    })
-    messageBox.value = ''
+function sendMessage(message) {
+  // todo: send message to backend
 
-    // scrolling still todo
-    const messageContainer = document.getElementById('message-container')
-    messageContainer.scrollTop = messageContainer.scrollHeight
-  }
+  // scrolling still todo
+  // const messageContainer = document.getElementById('message-container')
+  // messageContainer.scrollTop = messageContainer.scrollHeight
 }
 </script>
 
