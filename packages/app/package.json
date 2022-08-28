@@ -1,5 +1,5 @@
 {
-  "name": "vue-project",
+  "name": "chai-frontend",
   "version": "1.1.0",
   "scripts": {
     "dev": "vite",

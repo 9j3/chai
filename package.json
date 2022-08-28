@@ -1,20 +1,15 @@
 {
-  "name": "chai",
   "version": "1.0.0",
-  "description": "A fancy chat application",
-  "main": "index.js",
-  "repository": "git@github.com:lb0dl/chai.git",
-  "author": "Laurin & Dario",
-  "license": "MIT",
+  "packageManager": "pnpm@7.1.0",
   "private": true,
+  "engines": {
+    "node": ">=16.11.0"
+  },
   "scripts": {
     "ts:lint": "eslint --ext .ts packages/*/{src,__tests__}/**.ts",
     "ts:format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\"",
     "js:format": "prettier --write \"packages/**/*.vue?(x)\""
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
@@ -29,17 +24,5 @@
     "prettier": "^2.7.1",
     "typescript": "^4.7.4",
     "yorkie": "^2.0.0"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write ."
-    ],
-    "*.ts?(x)": [
-      "eslint",
-      "prettier --parser=typescript --write"
-    ]
   }
 }
