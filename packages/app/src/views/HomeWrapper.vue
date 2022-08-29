@@ -124,7 +124,7 @@ function sendMessage() {
             ref="message-container"
             class="h-full px-10 py-4 overflow-y-auto"
           >
-            <ChatDaySeparator date-string="1.1.1900 or something" />
+            <ChatDaySeparator :date="new Date()" />
             <!-- messages -->
             <ChatBubble
               v-for="message in messages"
@@ -133,7 +133,7 @@ function sendMessage() {
               :message="message.text"
               :timestamp="message.timestamp"
             />
-            <ChatDaySeparator date-string="Today, 2:15 AM" />
+            <ChatDaySeparator :date="new Date()" />
           </div>
           <InputBox
             v-model:inputModel="input"
