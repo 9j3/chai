@@ -1,6 +1,6 @@
 <script setup>
 function createAccount() {
-    console.log('create acc');
+  console.log('create acc')
 }
 </script>
 

@@ -66,7 +66,7 @@ function sendMessage() {
                 src="https://avatars.githubusercontent.com/u/35639254"
                 class="h-12 w-12 border-2 border-white rounded-full"
                 alt=""
-              />
+              >
               <div class="ml-4">
                 <p
                   x-text="user.name"
@@ -96,8 +96,10 @@ function sendMessage() {
                 class="h-10 w-10 overflow-hidden rounded-full"
                 src="https://avatars.githubusercontent.com/u/35639254"
                 alt=""
-              />
-              <p class="font-semibold ml-3 text-white">{{ selectedUserId }}</p>
+              >
+              <p class="font-semibold ml-3 text-white">
+                {{ selectedUserId }}
+              </p>
             </div>
             <!-- triple dots -->
             <div class="flex items-center space-x-5">

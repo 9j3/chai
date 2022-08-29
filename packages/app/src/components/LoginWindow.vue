@@ -1,14 +1,14 @@
 <script setup>
 function loginUser() {
-    console.log('login');
+  console.log('login')
 }
 
 function resetPassword() {
-    console.log('reset pw');
+  console.log('reset pw')
 }
 
 function createAccount() {
-    console.log('create acc');
+  console.log('create acc')
 }
 </script>
 
