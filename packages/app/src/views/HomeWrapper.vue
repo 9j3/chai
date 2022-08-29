@@ -68,16 +68,10 @@ function sendMessage() {
                 alt=""
               >
               <div class="ml-4">
-                <p
-                  x-text="user.name"
-                  class="text-md font-semibold text-slate-600 m-0 p-0"
-                >
+                <p class="text-md font-semibold text-slate-600 m-0 p-0">
                   {{ chatUser.fullName }}
                 </p>
-                <p
-                  class="text-xs text-slate-400 -mt-0.5 font-semibold"
-                  x-text="user.email"
-                >
+                <p class="text-xs text-slate-400 -mt-0.5 font-semibold">
                   this is still empty and will be changed soonTM
                 </p>
               </div>
