@@ -7,19 +7,20 @@ import InputBox from '../components/InputBox.vue'
 import { useUsersStore } from '@/stores'
 import { ref } from 'vue'
 
+// variables
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
 const usersStore = useUsersStore()
 const { users } = storeToRefs(usersStore)
+usersStore.getAll()
 
 const chatStore = useChatStore()
 const { selectedUserId } = storeToRefs(chatStore)
 
-usersStore.getAll()
-
 const input = ref('')
 
+// functions
 /**
  * todo
  */
