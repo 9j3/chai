@@ -1,14 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-
-let input = ref('')
-
-function newMessage() {
-  if (input.value) {
-    this.$emit('sendMessage', input.value) // todo: es5 function has own this context
-    input.value = ''
+defineProps({
+  inputModel: {
+    type: String,
+    required: true
   }
-}
+})
+defineEmits(['sendMessage', 'update:inputModel'])
 </script>
 
 <template>
@@ -17,12 +14,13 @@ function newMessage() {
       class="h-12 flex justify-between px-3 items-center border border-transparent bg-slate-50 focus-within:border-slate-300 rounded-lg"
     >
       <input
-        v-model="input"
+        :value="inputModel"
         type="text"
         class="w-full px-3 bg-transparent outline-none placeholder:text-slate-400"
         placeholder="Type your message"
-        @keydown.enter="newMessage"
-      />
+        @input="$emit('update:inputModel', $event.target.value)"
+        @keydown.enter="$emit('sendMessage')"
+      >
       <div class="flex items-center space-x-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +51,9 @@ function newMessage() {
             d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
           />
         </svg>
-        <button @click="newMessage">SEND</button>
+        <button @click="$emit('sendMessage')">
+          SEND
+        </button>
       </div>
     </div>
   </div>

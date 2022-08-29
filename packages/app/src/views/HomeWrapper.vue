@@ -5,6 +5,7 @@ import ChatDaySeparator from '../components/ChatDaySeparator.vue'
 import ChatBubble from '../components/ChatBubble.vue'
 import InputBox from '../components/InputBox.vue'
 import { useUsersStore } from '@/stores'
+import { ref } from 'vue'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
@@ -17,15 +18,19 @@ const { selectedUserId } = storeToRefs(chatStore)
 
 usersStore.getAll()
 
+const input = ref('')
+
 /**
  * todo
  */
-function sendMessage(message) {
-  // todo: send message to backend
-
-  // scrolling still todo
-  // const messageContainer = document.getElementById('message-container')
-  // messageContainer.scrollTop = messageContainer.scrollHeight
+function sendMessage() {
+  if (input.value) {
+    input.value = ''
+    // todo: send message to backend
+    // scrolling still todo
+    // const messageContainer = document.getElementById('message-container')
+    // messageContainer.scrollTop = messageContainer.scrollHeight
+  }
 }
 </script>
 
@@ -127,7 +132,10 @@ function sendMessage(message) {
             />
             <ChatDaySeparator date-string="Today, 2:15 AM" />
           </div>
-          <InputBox @send-message="sendMessage" />
+          <InputBox
+            v-model:inputModel="input"
+            @send-message="sendMessage"
+          />
         </div>
       </div>
     </div>
