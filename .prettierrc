@@ -1,5 +1,9 @@
-semi: false
-singleQuote: true
-printWidth: 80
-trailingComma: 'none'
-arrowParens: 'avoid'
+{
+   "tabWidth": 2,
+   "useTabs": false,
+   "bracketSameLine": true,
+   "singleQuote": true,
+   "vueIndentScriptAndStyle": true,
+   "semi": true
+ }
+ 

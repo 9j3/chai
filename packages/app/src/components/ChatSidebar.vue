@@ -15,8 +15,14 @@
             x1="512"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0" stop-color="#00b2ff" />
-            <stop offset="1" stop-color="#006aff" />
+            <stop
+              offset="0"
+              stop-color="#00b2ff"
+            />
+            <stop
+              offset="1"
+              stop-color="#006aff"
+            />
           </linearGradient>
           <path
             d="M512 11.5c-280 0-497 205.1-497 482.1 0 144.9 59.4 270.1 156.1 356.6 8.1 7.3 13 17.4 13.4 28.3l2.7 88.4c.9 28.2 30 46.5 55.8 35.2l98.6-43.5c8.4-3.7 17.7-4.4 26.5-2 45.3 12.5 93.6 19.1 143.9 19.1 280 0 497-205.1 497-482.1S792 11.5 512 11.5z"
@@ -30,8 +36,7 @@
             clip-rule="evenodd"
             fill="#fff"
           />
-        </g></svg
-    ></span>
+        </g></svg></span>
     <!-- search -->
     <div
       class="w-1/2 relative focus-within:shadow-lg"
@@ -58,7 +63,7 @@
           type="text"
           placeholder="Search.."
           class="w-full outline-none placeholder:text-slate-300 font-semibold"
-        />
+        >
       </div>
     </div>
     <!-- profile -->
@@ -86,7 +91,7 @@
         src="https://source.unsplash.com/random/500x500/?face"
         class="h-10 w-10 rounded-full"
         alt=""
-      />
+      >
     </div>
   </div>
 </template>

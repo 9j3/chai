@@ -1,0 +1,3 @@
+packages:
+  # all apps in direct subdirs of packages/ are treated as separate modules
+  - 'packages/*'

@@ -1,31 +1,43 @@
 <script setup>
-import { storeToRefs } from 'pinia'
+  import { storeToRefs } from 'pinia';
 
-import { useUsersStore } from '@/stores'
+  import { useUsersStore } from '@/stores';
 
-const usersStore = useUsersStore()
-const { users } = storeToRefs(usersStore)
+  const usersStore = useUsersStore();
+  const { users } = storeToRefs(usersStore);
 
-usersStore.getAll()
+  usersStore.getAll();
 </script>
 
 <template>
   <h1>Users</h1>
-  <router-link to="/users/add" class="btn btn-sm btn-success mb-2">
+  <router-link
+    to="/users/add"
+    class="btn btn-sm btn-success mb-2"
+  >
     Add User
   </router-link>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th style="width: 30%">First Name</th>
-        <th style="width: 30%">Last Name</th>
-        <th style="width: 30%">Username</th>
+        <th style="width: 30%">
+          First Name
+        </th>
+        <th style="width: 30%">
+          Last Name
+        </th>
+        <th style="width: 30%">
+          Username
+        </th>
         <th style="width: 10%" />
       </tr>
     </thead>
     <tbody>
       <template v-if="users.length">
-        <tr v-for="user in users" :key="user.id">
+        <tr
+          v-for="user in users"
+          :key="user.id"
+        >
           <td>{{ user.firstName }}</td>
           <td>{{ user.lastName }}</td>
           <td>{{ user.username }}</td>
@@ -51,13 +63,18 @@ usersStore.getAll()
         </tr>
       </template>
       <tr v-if="users.loading">
-        <td colspan="4" class="text-center">
+        <td
+          colspan="4"
+          class="text-center"
+        >
           <span class="spinner-border spinner-border-lg align-center" />
         </td>
       </tr>
       <tr v-if="users.error">
         <td colspan="4">
-          <div class="text-danger">Error loading users: {{ users.error }}</div>
+          <div class="text-danger">
+            Error loading users: {{ users.error }}
+          </div>
         </td>
       </tr>
     </tbody>
