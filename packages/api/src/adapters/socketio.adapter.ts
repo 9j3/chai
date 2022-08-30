@@ -1,10 +1,13 @@
-import { INestApplicationContext } from '@nestjs/common'
-import { isFunction, isNil } from '@nestjs/common/utils/shared.utils'
-import { AbstractWsAdapter, MessageMappingProperties } from '@nestjs/websockets'
-import { DISCONNECT_EVENT } from '@nestjs/websockets/constants'
-import { fromEvent, Observable } from 'rxjs'
-import { filter, first, map, mergeMap, share, takeUntil } from 'rxjs/operators'
-import { Server } from 'socket.io'
+import { INestApplicationContext } from '@nestjs/common';
+import { isFunction, isNil } from '@nestjs/common/utils/shared.utils';
+import {
+  AbstractWsAdapter,
+  MessageMappingProperties,
+} from '@nestjs/websockets';
+import { DISCONNECT_EVENT } from '@nestjs/websockets/constants';
+import { fromEvent, Observable } from 'rxjs';
+import { filter, first, map, mergeMap, share, takeUntil } from 'rxjs/operators';
+import { Server } from 'socket.io';
 
 export class SocketIoAdapter extends AbstractWsAdapter {
   /**
@@ -14,9 +17,9 @@ export class SocketIoAdapter extends AbstractWsAdapter {
    */
   constructor(
     appOrHttpServer?: INestApplicationContext | any,
-    private readonly corsOrigins = ['localhost']
+    private readonly corsOrigins = ['localhost'],
   ) {
-    super(appOrHttpServer)
+    super(appOrHttpServer);
   }
 
   /**
@@ -26,17 +29,17 @@ export class SocketIoAdapter extends AbstractWsAdapter {
    */
   public create(
     port: number,
-    options?: any & { namespace?: string; server?: any }
+    options?: any & { namespace?: string; server?: any },
   ): any {
     if (!options) {
-      return this.createIOServer(port)
+      return this.createIOServer(port);
     }
-    const { namespace, server, ...opt } = options
+    const { namespace, server, ...opt } = options;
     return server && isFunction(server.of)
       ? server.of(namespace)
       : namespace
       ? this.createIOServer(port, opt).of(namespace)
-      : this.createIOServer(port, opt)
+      : this.createIOServer(port, opt);
   }
 
   /**
@@ -50,13 +53,13 @@ export class SocketIoAdapter extends AbstractWsAdapter {
         cors: {
           origin: this.corsOrigins,
           methods: ['GET', 'POST'],
-          credentials: true
+          credentials: true,
         },
         // Allow 1MB of data per request.
-        maxHttpBufferSize: 1e6
-      })
+        maxHttpBufferSize: 1e6,
+      });
     }
-    return new Server(port, options)
+    return new Server(port, options);
   }
 
   /**
@@ -68,31 +71,31 @@ export class SocketIoAdapter extends AbstractWsAdapter {
   public bindMessageHandlers(
     client: any,
     handlers: MessageMappingProperties[],
-    transform: (data: any) => Observable<any>
+    transform: (data: any) => Observable<any>,
   ) {
     const disconnect$ = fromEvent(client, DISCONNECT_EVENT).pipe(
       share(),
-      first()
-    )
+      first(),
+    );
 
     handlers.forEach(({ message, callback }) => {
       const source$ = fromEvent(client, message).pipe(
         mergeMap((payload: any) => {
-          const { data, ack } = this.mapPayload(payload)
+          const { data, ack } = this.mapPayload(payload);
           return transform(callback(data, ack)).pipe(
             filter((response: any) => !isNil(response)),
-            map((response: any) => [response, ack])
-          )
+            map((response: any) => [response, ack]),
+          );
         }),
-        takeUntil(disconnect$)
-      )
+        takeUntil(disconnect$),
+      );
       source$.subscribe(([response, ack]) => {
         if (response.event) {
-          return client.emit(response.event, response.data)
+          return client.emit(response.event, response.data);
         }
-        isFunction(ack) && ack(response)
-      })
-    })
+        isFunction(ack) && ack(response);
+      });
+    });
   }
 
   /**
@@ -101,17 +104,17 @@ export class SocketIoAdapter extends AbstractWsAdapter {
    */
   public mapPayload(payload: any): { data: any; ack?: any } {
     if (!Array.isArray(payload)) {
-      return { data: payload }
+      return { data: payload };
     }
-    const lastElement = payload[payload.length - 1]
-    const isAck = isFunction(lastElement)
+    const lastElement = payload[payload.length - 1];
+    const isAck = isFunction(lastElement);
     if (isAck) {
-      const size = payload.length - 1
+      const size = payload.length - 1;
       return {
         data: size === 1 ? payload[0] : payload.slice(0, size),
-        ack: lastElement
-      }
+        ack: lastElement,
+      };
     }
-    return { data: payload }
+    return { data: payload };
   }
 }

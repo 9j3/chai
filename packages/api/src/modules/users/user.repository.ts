@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common'
-import { User } from './users.service'
-import { randomUUID } from 'crypto'
+import { Injectable } from '@nestjs/common';
+import { User } from './users.service';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UsersRepository {
-  private readonly users: User[]
+  private readonly users: User[];
 
   public constructor() {
     this.users = [
@@ -12,21 +12,21 @@ export class UsersRepository {
         userId: randomUUID(),
         username: 'bruno',
         fullName: 'Bruno Hammer',
-        password: 'changeme'
+        password: 'changeme',
       },
       {
         userId: randomUUID(),
         username: 'irene',
         fullName: 'Irene S. Mosig',
-        password: 'secret'
+        password: 'secret',
       },
       {
         userId: randomUUID(),
         username: 'andi',
         fullName: 'Andreas Holzer',
-        password: 'pw'
-      }
-    ]
+        password: 'pw',
+      },
+    ];
   }
 
   /**
@@ -35,7 +35,7 @@ export class UsersRepository {
    * @param id
    */
   public find(property: string, id: number | string): User | null {
-    return this.users.find(user => user[property] === id)
+    return this.users.find((user) => user[property] === id);
   }
 
   /**
@@ -44,7 +44,7 @@ export class UsersRepository {
    * @param id
    */
   public findMany(): User[] | null {
-    return this.users
+    return this.users;
   }
   /**
    *
@@ -55,11 +55,11 @@ export class UsersRepository {
     const user = {
       username,
       password,
-      userId: randomUUID()
-    }
+      userId: randomUUID(),
+    };
 
-    this.users.push(user)
+    this.users.push(user);
 
-    return user
+    return user;
   }
 }
