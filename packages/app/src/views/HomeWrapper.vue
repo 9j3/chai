@@ -1,24 +1,24 @@
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useAuthStore, useChatStore } from '@/stores'
-import ChatDaySeparator from '../components/ChatDaySeparator.vue'
-import ChatBubble from '../components/ChatBubble.vue'
-import InputBox from '../components/InputBox.vue'
-import { useUsersStore } from '@/stores'
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia';
+import { useAuthStore, useChatStore, useUsersStore } from '@/stores';
+import ChatDaySeparator from '../components/ChatDaySeparator.vue';
+import ChatBubble from '../components/ChatBubble.vue';
+import InputBox from '../components/InputBox.vue';
+import { ref } from 'vue';
+import { useSocketIO } from '@/socket';
 
 // variables
-const authStore = useAuthStore()
-const { user } = storeToRefs(authStore)
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 
-const usersStore = useUsersStore()
-const { users } = storeToRefs(usersStore)
-usersStore.getAll()
+const usersStore = useUsersStore();
+const { users } = storeToRefs(usersStore);
+usersStore.getAll();
 
-const chatStore = useChatStore()
-const { selectedUserId } = storeToRefs(chatStore)
+const chatStore = useChatStore();
+const { selectedUserId } = storeToRefs(chatStore);
 
-const input = ref('')
+const input = ref('');
 
 // functions
 /**
@@ -26,11 +26,13 @@ const input = ref('')
  */
 function sendMessage() {
   if (input.value) {
-    input.value = ''
     // todo: send message to backend
     // scrolling still todo
     // const messageContainer = document.getElementById('message-container')
     // messageContainer.scrollTop = messageContainer.scrollHeight
+    const { socket } = useSocketIO();
+    socket.emit('chat', { messageBody: input.value });
+    input.value = '';
   }
 }
 </script>
@@ -54,11 +56,11 @@ function sendMessage() {
               :class="[
                 chatUser.userId === selectedUserId
                   ? 'border-l-4 border-l-blue-500 border-t border-b'
-                  : ''
+                  : '',
               ]"
               @click="
                 chatStore.$patch({
-                  selectedUserId: chatUser.userId
+                  selectedUserId: chatUser.userId,
                 })
               "
             >
@@ -66,7 +68,7 @@ function sendMessage() {
                 src="https://avatars.githubusercontent.com/u/35639254"
                 class="h-12 w-12 border-2 border-white rounded-full"
                 alt=""
-              >
+              />
               <div class="ml-4">
                 <p class="text-md font-semibold text-slate-600 m-0 p-0">
                   {{ chatUser.fullName }}
@@ -90,7 +92,7 @@ function sendMessage() {
                 class="h-10 w-10 overflow-hidden rounded-full"
                 src="https://avatars.githubusercontent.com/u/35639254"
                 alt=""
-              >
+              />
               <p class="font-semibold ml-3 text-white">
                 {{ selectedUserId }}
               </p>
@@ -129,10 +131,7 @@ function sendMessage() {
             />
             <ChatDaySeparator :date="new Date()" />
           </div>
-          <InputBox
-            v-model:inputModel="input"
-            @send-message="sendMessage"
-          />
+          <InputBox v-model:inputModel="input" @send-message="sendMessage" />
         </div>
       </div>
     </div>
