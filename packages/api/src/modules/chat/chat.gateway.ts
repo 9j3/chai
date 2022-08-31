@@ -20,7 +20,7 @@ export class ChatGateway
   @WebSocketServer() wss: Server;
 
   private users: any = {};
-  private userid: any = {};
+  private userid: any = [];
   private ctr = 0;
 
   /**
