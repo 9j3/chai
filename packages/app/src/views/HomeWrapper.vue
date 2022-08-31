@@ -1,8 +1,7 @@
 <script setup>
-import { useSocketIO } from '@/socket';
 import { useAuthStore, useChatStore, useUsersStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import ChatBubble from '../components/ChatBubble.vue';
 import ChatDaySeparator from '../components/ChatDaySeparator.vue';
 import InputBox from '../components/InputBox.vue';
@@ -20,6 +19,11 @@ const { selectedUserId } = storeToRefs(chatStore);
 
 const input = ref('');
 const messages = [];
+
+/** @type { import('socket.io-client').Socket }*/
+const socket = inject('socket');
+socket.connect();
+
 // functions
 /**
  * todo
@@ -30,7 +34,6 @@ function sendMessage() {
     // scrolling still todo
     // const messageContainer = document.getElementById('message-container')
     // messageContainer.scrollTop = messageContainer.scrollHeight
-
     input.value = '';
   }
 }
@@ -130,7 +133,7 @@ function sendMessage() {
             />
             <ChatDaySeparator :date="new Date()" />
           </div>
-          <InputBox v-model:inputModel="input" @send-message="sendMessage" />$
+          <InputBox v-model:inputModel="input" @send-message="sendMessage" />
         </div>
       </div>
     </div>

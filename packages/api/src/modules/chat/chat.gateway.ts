@@ -36,9 +36,10 @@ export class ChatGateway
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleConnection(client: Socket, ...args: any[]): void {
+    console.log('New Connection :)', client.id);
+
     this.users[client.id] = ++this.ctr;
     this.userid.push(client.id);
-    console.log('New Connection :)');
 
     // broadcast (user is online)
     client.broadcast.emit(`user ${this.users[client.id]} joined the channel`);
@@ -53,9 +54,7 @@ export class ChatGateway
    * Hook called after server is initialised
    * @param server
    */
-  afterInit(server: Server): any {
-    console.log('Initialised');
-  }
+  afterInit(server: Server): any {}
 
   /**
    * Handler when a message is sent
@@ -81,6 +80,7 @@ export class ChatGateway
    */
   @SubscribeMessage('joinRoom')
   handleJoinRoom(client: Socket, room: string): void {
+    console.dir(client.id);
     client.join(room);
     client.broadcast.to(room).emit(`${this.users[client.id]} joined ${room}`);
   }
