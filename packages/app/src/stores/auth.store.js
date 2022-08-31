@@ -4,6 +4,7 @@ import { fetchWrapper } from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore } from '@/stores';
 import { useSocketIO } from '@/socket';
+import { inject, provide } from 'vue';
 
 const baseUrl = `http://localhost:3000/api/auth`;
 

@@ -1,11 +1,11 @@
-import { io, Manager, Socket } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client'
 
 /**
  *
- * @returns {Manager}
+ * @returns {Socket}
  */
 export const useSocketIO = () => {
-  return new Manager('http://localhost:3000', {
+  return io('http://localhost:3000/chat', {
     autoConnect: false,
   });
 };
