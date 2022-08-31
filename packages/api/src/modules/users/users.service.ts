@@ -1,24 +1,24 @@
-import { UnprocessableEntityException, Injectable } from '@nestjs/common'
-import { RegisterRequest } from '../../requests'
-import { UsersRepository } from './user.repository'
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { RegisterRequest } from '../../requests';
+import { UsersRepository } from './user.repository';
 
 export interface User {
-  userId: string
-  username: string
-  fullName?: string
-  password: string
+  userId: string;
+  username: string;
+  fullName?: string;
+  password: string;
 }
 
 @Injectable()
 export class UsersService {
-  private readonly users: UsersRepository
+  private readonly users: UsersRepository;
 
   /**
    *
    * @param users
    */
   public constructor(users: UsersRepository) {
-    this.users = users
+    this.users = users;
   }
 
   /**
@@ -28,9 +28,9 @@ export class UsersService {
    */
   public async validateCredentials(
     user: User,
-    password: string
+    password: string,
   ): Promise<boolean> {
-    return password === user.password
+    return password === user.password;
   }
 
   /**
@@ -38,15 +38,15 @@ export class UsersService {
    * @param request
    */
   public async createUserFromRequest(request: RegisterRequest): Promise<User> {
-    const { username, password } = request
+    const { username, password } = request;
 
-    const existingFromUsername = await this.findForUsername(request.username)
+    const existingFromUsername = await this.findForUsername(request.username);
 
     if (existingFromUsername) {
-      throw new UnprocessableEntityException('Username already in use')
+      throw new UnprocessableEntityException('Username already in use');
     }
 
-    return this.users.create(username, password)
+    return this.users.create(username, password);
   }
 
   /**
@@ -54,7 +54,7 @@ export class UsersService {
    * @param id
    */
   public async findForId(id: number): Promise<User | null> {
-    return this.users.find('userId', id)
+    return this.users.find('userId', id);
   }
 
   /**
@@ -62,7 +62,7 @@ export class UsersService {
    * @param id
    */
   public async findMany(): Promise<User[] | null> {
-    return this.users.findMany()
+    return this.users.findMany();
   }
 
   /**
@@ -70,6 +70,6 @@ export class UsersService {
    * @param username
    */
   public async findForUsername(username: string): Promise<User | null> {
-    return this.users.find('username', username)
+    return this.users.find('username', username);
   }
 }

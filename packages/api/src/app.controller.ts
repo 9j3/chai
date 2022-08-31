@@ -1,5 +1,5 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common'
-import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard'
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 @Controller('/api')
 export class AppController {
@@ -10,6 +10,6 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   public getProfile(@Request() req) {
-    return req.user
+    return req.user;
   }
 }

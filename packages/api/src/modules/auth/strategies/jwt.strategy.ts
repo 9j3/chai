@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common'
-import { PassportStrategy } from '@nestjs/passport'
-import { ExtractJwt, Strategy } from 'passport-jwt'
-import { User, UsersService } from '../../users/users.service'
+import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { User, UsersService } from '../../users/users.service';
 
 export interface AccessTokenPayload {
-  sub: number
+  sub: number;
 }
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  private users: UsersService
+  private users: UsersService;
 
   /**
    *
@@ -21,11 +21,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       secretOrKey: 'secret',
       signOptions: {
-        expiresIn: '5m'
-      }
-    })
+        expiresIn: '5m',
+      },
+    });
 
-    this.users = users
+    this.users = users;
   }
 
   /**
@@ -33,14 +33,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @param payload
    */
   async validate(payload: AccessTokenPayload): Promise<User> {
-    const { sub: id } = payload
+    const { sub: id } = payload;
 
-    const user = await this.users.findForId(id)
+    const user = await this.users.findForId(id);
 
     if (!user) {
-      return null
+      return null;
     }
 
-    return user
+    return user;
   }
 }
