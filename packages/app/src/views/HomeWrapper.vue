@@ -2,7 +2,7 @@
 import { useSocketIO } from '@/socket';
 import { useAuthStore, useChatStore, useUsersStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import ChatBubble from '../components/ChatBubble.vue';
 import ChatDaySeparator from '../components/ChatDaySeparator.vue';
 import InputBox from '../components/InputBox.vue';
@@ -19,7 +19,7 @@ const chatStore = useChatStore();
 const { selectedUserId } = storeToRefs(chatStore);
 
 const input = ref('');
-
+const messages = [];
 // functions
 /**
  * todo
@@ -30,8 +30,7 @@ function sendMessage() {
     // scrolling still todo
     // const messageContainer = document.getElementById('message-container')
     // messageContainer.scrollTop = messageContainer.scrollHeight
-    const { socket } = useSocketIO();
-    socket.emit('chat', { messageBody: input.value });
+
     input.value = '';
   }
 }
