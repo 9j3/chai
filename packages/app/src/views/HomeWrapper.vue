@@ -1,11 +1,11 @@
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useAuthStore, useChatStore, useUsersStore } from '@/stores';
-import ChatDaySeparator from '../components/ChatDaySeparator.vue';
-import ChatBubble from '../components/ChatBubble.vue';
-import InputBox from '../components/InputBox.vue';
-import { ref } from 'vue';
 import { useSocketIO } from '@/socket';
+import { useAuthStore, useChatStore, useUsersStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import ChatBubble from '../components/ChatBubble.vue';
+import ChatDaySeparator from '../components/ChatDaySeparator.vue';
+import InputBox from '../components/InputBox.vue';
 
 // variables
 const authStore = useAuthStore();
@@ -131,7 +131,7 @@ function sendMessage() {
             />
             <ChatDaySeparator :date="new Date()" />
           </div>
-          <InputBox v-model:inputModel="input" @send-message="sendMessage" />
+          <InputBox v-model:inputModel="input" @send-message="sendMessage" />$
         </div>
       </div>
     </div>
