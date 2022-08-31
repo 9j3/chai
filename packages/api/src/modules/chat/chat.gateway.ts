@@ -7,6 +7,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { UseGuards } from '@nestjs/common';
+import { WsGuard } from './guards/ws.guard';
 
 @WebSocketGateway({
   namespace: '/chat',
@@ -36,6 +38,7 @@ export class ChatGateway
   handleConnection(client: Socket, ...args: any[]): void {
     this.users[client.id] = ++this.ctr;
     this.userid.push(client.id);
+    console.log('New Connection :)');
 
     // broadcast (user is online)
     client.broadcast.emit(`user ${this.users[client.id]} joined the channel`);
@@ -59,6 +62,7 @@ export class ChatGateway
    * @param client
    * @param data
    */
+  @UseGuards(WsGuard)
   @SubscribeMessage('chat')
   async handleMessage(
     client: Socket,

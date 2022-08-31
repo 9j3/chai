@@ -1,17 +1,25 @@
 <script setup>
-import { Nav, Alert } from '@/components'
-import { useAuthStore } from '@/stores'
+import { Nav, Alert } from '@/components';
+import { useAuthStore } from '@/stores';
 
-import { useSocketIO } from '@/socket'
+import { useSocketIO } from '@/socket';
+import { onMounted } from 'vue';
+import { io } from 'socket.io-client';
 
-const authStore = useAuthStore()
-/** @type {Socket} */
-const { socket } = useSocketIO()
+const authStore = useAuthStore();
 
-// TODO: remove (just for demo purposes)
-setInterval(() => {
-  socket.emit('events', { foo: 'bar' })
-}, 3000)
+onMounted(() => {
+  console.log('Application mounted');
+  const socketManager = useSocketIO();
+  const chatSocket = socketManager.socket('/chat');
+  socketManager.open((err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('Successfully connected to WS Backend');
+    }
+  });
+});
 </script>
 
 <template>
