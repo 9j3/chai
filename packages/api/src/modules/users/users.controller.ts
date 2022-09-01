@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { User, UsersService } from '../users/users.service';
+import { Body, Controller, Get, Param } from '@nestjs/common';
+import { User, UsersService } from './users.service';
+import { UserRequest } from '../../requests';
 
 export interface AuthenticationPayload {
   user: User;
@@ -27,6 +28,14 @@ export class UserController {
     return {
       status: 'success',
       data: await this.users.findMany(),
+    };
+  }
+
+  @Get('/:id')
+  public async fetchById(@Param('id') id) {
+    return {
+      status: 'success',
+      data: await this.users.findForId(id),
     };
   }
 }

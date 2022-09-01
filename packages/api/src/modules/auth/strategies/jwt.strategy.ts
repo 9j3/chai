@@ -35,7 +35,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: AccessTokenPayload): Promise<User> {
     const { sub: id } = payload;
 
-    const user = await this.users.findForId(id);
+    const user = await this.users.findForId(String(id));
 
     if (!user) {
       return null;

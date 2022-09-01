@@ -1,13 +1,13 @@
 <script setup>
-import { useAuthStore } from '@/stores'
-import { router } from '@/router'
+import { useAuthStore } from '@/stores';
+import { router } from '@/router';
 // redirect home if already logged in
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 if (authStore.user) {
-  router.push('/')
+  router.push('/');
 }
 </script>
 
 <template>
-  <router-view />
+  <RouterView />
 </template>

@@ -53,7 +53,7 @@ export class UsersService {
    *
    * @param id
    */
-  public async findForId(id: number): Promise<User | null> {
+  public async findForId(id: string): Promise<User | null> {
     return this.users.find('userId', id);
   }
 
