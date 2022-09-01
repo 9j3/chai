@@ -9,19 +9,19 @@ export class UsersRepository {
   public constructor() {
     this.users = [
       {
-        userId: randomUUID(),
+        userId: '844dd213-3947-4b10-8242-ffdc92d2adfc',
         username: 'bruno',
         fullName: 'Bruno Hammer',
         password: 'changeme',
       },
       {
-        userId: randomUUID(),
+        userId: '844dd213-3947-4b10-8242-ffdc92d2adfa',
         username: 'irene',
         fullName: 'Irene S. Mosig',
         password: 'secret',
       },
       {
-        userId: randomUUID(),
+        userId: '844dd213-3947-4b10-8242-ffdc92d2adfb',
         username: 'andi',
         fullName: 'Andreas Holzer',
         password: 'pw',

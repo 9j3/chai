@@ -5,6 +5,7 @@ import './index.css';
 import App from './App.vue';
 import { router } from './router';
 import socket from '@/plugins/socket';
+import { setAppInstance } from '@/socket';
 
 const app = createApp(App);
 
@@ -16,3 +17,5 @@ app.use(socket, {
 });
 
 app.mount('#app');
+
+setAppInstance(app);
