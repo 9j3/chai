@@ -61,7 +61,6 @@ export class ChatGateway
    * @param client
    * @param data
    */
-  @UseGuards(WsGuard)
   @SubscribeMessage('chat')
   async handleMessage(
     client: Socket,

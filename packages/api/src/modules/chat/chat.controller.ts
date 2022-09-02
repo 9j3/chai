@@ -16,4 +16,22 @@ export class ChatController {
   ) {
     return await this.chats.getChatsByPair(senderId, receiverId);
   }
+
+  @Get('/rooms')
+  public getRooms() {
+    return [
+      {
+        roomId: 1,
+        name: 'Chatroom #1',
+      },
+      {
+        roomId: 2,
+        name: 'Chatroom #2',
+      },
+      {
+        roomId: 3,
+        name: 'Important News',
+      },
+    ];
+  }
 }
