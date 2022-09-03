@@ -1,20 +1,23 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref, watch } from 'vue';
 import { useChaiStore } from '@/stores/chai.store';
 import { storeToRefs } from 'pinia';
 import UsernameModal from '@/components/UsernameModal.vue';
 import ChatHeader from '@/components/ChatHeader.vue';
 import { ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import { useSocket } from '@/useSocket';
+import { useRoute } from 'vue-router';
 
 console.log('--------------------------------------');
 console.log('CHAI IS INITIALIZED :)');
 console.log('--------------------------------------');
 
-const chaiStore = useChaiStore();
-const { sender, messages, rooms } = storeToRefs(chaiStore);
+const route = useRoute();
 
-const socket = useSocket();
+const chaiStore = useChaiStore();
+const { sender, messages, rooms, clients } = storeToRefs(chaiStore);
+const socket = inject('$SOCKET');
+
 chaiStore.getRooms();
 
 const message = ref();
@@ -26,8 +29,60 @@ const sendMessage = () => {
     sender: sender.value,
   };
 
-  chaiStore.sendMessage(msg);
+  socket.emit('sendMessage', {
+    room: route.params.id,
+    message: msg,
+  });
 };
+
+const startTyping = () => {
+  socket.emit('typing:start');
+};
+
+// ROUTE WATCHER
+
+watch(
+  () => route.params.id,
+  (id, oldId) => {
+    socket.emit('switchRoom', {
+      before: oldId,
+      after: id,
+    });
+    chaiStore.$patch({
+      messages: [],
+    });
+  },
+);
+
+// EVENTS
+
+socket.on('acknowledgeConnection', (clients) => {
+  chaiStore.$patch((state) => {
+    state.clients = clients;
+  });
+});
+
+socket.on('newMessage', (data) => {
+  chaiStore.$patch((state) => {
+    state.messages.push(data);
+  });
+});
+
+socket.on('typing:start', ({ client }) => {
+  console.log(client);
+
+  chaiStore.$patch((state) => {
+    state.clients[client].isTyping = true;
+  });
+});
+
+socket.on('typing:stop', ({ client }) => {
+  console.log(client);
+
+  chaiStore.$patch((state) => {
+    state.clients[client].isTyping = false;
+  });
+});
 </script>
 
 <template>
@@ -126,6 +181,7 @@ const sendMessage = () => {
                 class="w-full px-3 bg-transparent outline-none placeholder:text-slate-400"
                 placeholder="Type your message"
                 @keyup.enter="sendMessage()"
+                @input="startTyping()"
               />
               <div class="flex items-center space-x-4">
                 <svg
@@ -161,69 +217,25 @@ const sendMessage = () => {
             </div>
           </div>
         </div>
-
         <div class="h-full w-72 border-l pt-10 px-5">
-          <p class="text-xs font-medium text-gray-400">MAIN</p>
+          <p class="text-xs font-medium text-gray-400">ONLINE</p>
           <!-- menu-item -->
           <div
+            v-for="(clientVal, clientKey) in clients"
+            :key="clientKey"
             class="mt-4 py-1.5 text-sm font-medium text-slate-500 hover:text-blue-500 group cursor-pointer flex items-center"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 stroke-slate-400 mr-4 group-hover:stroke-blue-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            Dashboard
-          </div>
-
-          <p class="text-xs font-medium text-gray-400 mt-8">APPLICATIONS</p>
-          <div
-            class="mt-4 py-1.5 text-sm font-medium text-slate-500 hover:text-blue-500 group cursor-pointer flex items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 stroke-slate-400 mr-4 group-hover:stroke-blue-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            Calender
-          </div>
-
-          <div
-            class="mt-4 py-1.5 text-sm font-medium text-blue-500 group cursor-pointer flex items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 mr-4 stroke-blue-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
-            </svg>
-            Messages
+            <img
+              class="h-8 w-8 overflow-hidden rounded-full"
+              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
+              alt=""
+            />
+            <div class="flex flex-col">
+              <span class="ml-2">{{ clientVal.username }}</span>
+              <span class="ml-2 text-slate-300">{{
+                clientVal.isTyping ? '...typing' : ''
+              }}</span>
+            </div>
           </div>
         </div>
       </div>

@@ -32,12 +32,20 @@
 </template>
 <script setup>
 import { useChaiStore } from '@/stores/chai.store';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+const socket = inject('$SOCKET');
 const chaiStore = useChaiStore();
 const i_sender = ref();
 
+console.log(socket);
+
 const register = () => {
+  socket.connect();
+  socket.emit('setUsername', i_sender.value);
+  socket.emit('joinRoom', route.params.id);
   chaiStore.$patch({
     sender: i_sender.value,
   });
