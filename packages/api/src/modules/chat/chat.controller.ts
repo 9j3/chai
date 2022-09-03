@@ -1,11 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ChatService } from './chat.service';
+import { ChatGateway } from './chat.gateway';
 
 @Controller('/api/chat')
 export class ChatController {
-  private readonly chats: ChatService;
-
-  public constructor(chats: ChatService) {
+  public constructor(
+    private readonly chats: ChatService,
+    private readonly sockets: ChatGateway,
+  ) {
     this.chats = chats;
   }
 
@@ -33,5 +35,12 @@ export class ChatController {
         name: 'Important News',
       },
     ];
+  }
+
+  @Get('/clients')
+  public getClients() {
+    return {
+      clients: this.sockets.users,
+    };
   }
 }

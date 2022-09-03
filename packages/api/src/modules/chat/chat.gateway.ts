@@ -7,8 +7,14 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { UseGuards } from '@nestjs/common';
-import { WsGuard } from './guards/ws.guard';
+import { Injectable } from '@nestjs/common';
+
+export interface Message {
+  sender: string;
+  value: string;
+  id: number;
+  dateSent?: Date;
+}
 
 @WebSocketGateway({
   namespace: '/chat',
@@ -16,14 +22,14 @@ import { WsGuard } from './guards/ws.guard';
     origin: '*',
   },
 })
+@Injectable()
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer() wss: Server;
 
-  private users: any = {};
+  public users: any = {};
   private userid: any = [];
-  private ctr = 0;
 
   /**
    * Handles the disconnect of a specific user and emits an event to all other users
@@ -31,23 +37,55 @@ export class ChatGateway
    */
   handleDisconnect(client: Socket): void {
     // user is offline
+    console.log('DISCONNECT');
     client.broadcast.emit(`user ${this.users[client.id]} left the channel`);
+    delete this.users[client.id];
+    client.disconnect();
+
+    // tell the client
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleConnection(client: Socket, ...args: any[]): void {
     console.log('New Connection :)', client.id);
 
-    this.users[client.id] = ++this.ctr;
+    this.users[client.id] = {};
     this.userid.push(client.id);
 
     // broadcast (user is online)
-    client.broadcast.emit(`user ${this.users[client.id]} joined the channel`);
+    client.broadcast.emit('newClient', this.users[client.id]);
+  }
+
+  /**
+   *
+   * @param client
+   * @param username
+   */
+  @SubscribeMessage('setUsername')
+  setUsername(client: Socket, username: string) {
+    console.log(username);
+    this.users[client.id]['username'] = username;
+    this.users[client.id]['isTyping'] = false;
 
     // send message only to new user
-    this.wss
-      .to(this.userid[this.ctr - 1])
-      .emit(`Welcome To the chai chat user ${this.ctr}`);
+    this.wss.to(client.id).emit('acknowledgeConnection', this.users);
+  }
+
+  @SubscribeMessage('typing:start')
+  isTyping(client: Socket) {
+    client.broadcast.emit('typing:start', {
+      client: client.id,
+    });
+
+    console.log(`Client ${client.id} started typing`);
+
+    setTimeout(() => {
+      console.log(`Client ${client.id} stopped typing`);
+
+      client.broadcast.emit('typing:stop', {
+        client: client.id,
+      });
+    }, 1500);
   }
 
   /**
@@ -61,15 +99,23 @@ export class ChatGateway
    * @param client
    * @param data
    */
-  @SubscribeMessage('chat')
+  @SubscribeMessage('sendMessage')
   async handleMessage(
     client: Socket,
-    data: { message: string; room: string },
+    data: { message: Message; room: string },
   ): Promise<void> {
-    this.wss.emit(
-      'chat',
-      `message from user ${this.users[client.id]} ==>> ${data}`,
+    console.dir(`New message to room ${data.room}. value ${data.message}`);
+    this.wss.to(data.room).emit('newMessage', data.message);
+  }
+
+  @SubscribeMessage('switchRoom')
+  switchRoom(client: Socket, data: { before: number; after: number }) {
+    console.dir(
+      `Client ${client.id} switches from room ${data.before} in room ${data.after}`,
     );
+
+    client.leave(String(data.before));
+    client.join(String(data.after));
   }
 
   /**
@@ -79,9 +125,11 @@ export class ChatGateway
    */
   @SubscribeMessage('joinRoom')
   handleJoinRoom(client: Socket, room: string): void {
-    console.dir(client.id);
+    console.dir(`Client ${client.id} joins room ${room}`);
     client.join(room);
-    client.broadcast.to(room).emit(`${this.users[client.id]} joined ${room}`);
+    client.broadcast
+      .to(room)
+      .emit('joinRoom1', { user: this.users[client.id], id: client.id });
   }
 
   /**

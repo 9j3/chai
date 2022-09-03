@@ -4,9 +4,10 @@ import axios from 'axios';
 export const useChaiStore = defineStore('chai', {
   state: () => {
     return {
-      sender: 'Laurin Birchler',
+      sender: undefined,
       socketConnected: false,
       selectedRoom: 1,
+      clients: {},
       rooms: [],
       messages: [
         {
@@ -18,15 +19,9 @@ export const useChaiStore = defineStore('chai', {
     };
   },
   actions: {
-    sendMessage(message) {
-      this.messages.push(message);
-    },
     async getRooms() {
       const { data } = await axios.get('http://localhost:3000/api/chat/rooms');
       this.rooms = data;
-    },
-    switchSpace() {
-      this.router.push('/foo');
     },
   },
   getters: {
