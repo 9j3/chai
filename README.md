@@ -9,11 +9,5 @@ Chai is a socket.io based chat application demonstration powered by Vue 3 and Ne
 
 #### 🚀 Local setup
 ``` bash
-pnpm i
-```
-``` bash
-pnpm --filter "chai-backend" run start:watch
-```
-``` bash
-pnpm --filter "chai-frontend" run dev
+pnpm i && pnpm --parallel run dev 
 ```
