@@ -42,7 +42,6 @@ export class ChatGateway
     delete this.users[client.id];
     client.disconnect();
 
-    // tell the client
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
