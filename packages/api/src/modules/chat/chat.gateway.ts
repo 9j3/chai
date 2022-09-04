@@ -1,13 +1,13 @@
+import { Injectable } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
+  WebSocketServer
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Injectable } from '@nestjs/common';
 
 export interface Message {
   sender: string;
@@ -38,7 +38,13 @@ export class ChatGateway
   handleDisconnect(client: Socket): void {
     // user is offline
     console.log('DISCONNECT');
-    client.broadcast.emit(`user ${this.users[client.id]} left the channel`);
+
+    // notify all connected client's that there is a new leave
+    client.broadcast.emit('client:disconnect', {
+      id: client.id,
+      client: this.users[client.id],
+    });
+
     delete this.users[client.id];
     client.disconnect();
   }
@@ -64,25 +70,33 @@ export class ChatGateway
     this.users[client.id]['username'] = username;
     this.users[client.id]['isTyping'] = false;
 
+    // notify all connected client's that there is a new connection
+    client.broadcast.emit('client:connect', {
+      id: client.id,
+      client: this.users[client.id],
+    });
+
     // send message only to new user
     this.wss.to(client.id).emit('acknowledgeConnection', this.users);
   }
 
   @SubscribeMessage('typing:start')
-  isTyping(client: Socket) {
+  startTyping(client: Socket) {
+    console.log(`Client ${client.id} started typing`);
+    // tell other clients that client is typing
     client.broadcast.emit('typing:start', {
       client: client.id,
     });
+  }
 
-    console.log(`Client ${client.id} started typing`);
+  @SubscribeMessage('typing:stop')
+  stopTyping(client: Socket) {
+    console.log(`Client ${client.id} stopped typing`);
 
-    setTimeout(() => {
-      console.log(`Client ${client.id} stopped typing`);
-
-      client.broadcast.emit('typing:stop', {
-        client: client.id,
-      });
-    }, 1500);
+    // tell other clients that client is typing
+    client.broadcast.emit('typing:stop', {
+      client: client.id,
+    });
   }
 
   /**
