@@ -41,7 +41,6 @@ export class ChatGateway
     client.broadcast.emit(`user ${this.users[client.id]} left the channel`);
     delete this.users[client.id];
     client.disconnect();
-
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -49,7 +48,7 @@ export class ChatGateway
     console.log('New Connection :)', client.id);
 
     this.users[client.id] = {};
-    this.userid.push(client.id);
+    this.userId.push(client.id);
 
     // broadcast (user is online)
     client.broadcast.emit('newClient', this.users[client.id]);
