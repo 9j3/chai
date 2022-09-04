@@ -1,11 +1,10 @@
 <script setup>
-import { inject, onMounted, ref, watch } from 'vue';
-import { useChaiStore } from '@/stores/chai.store';
-import { storeToRefs } from 'pinia';
-import UsernameModal from '@/components/UsernameModal.vue';
 import ChatHeader from '@/components/ChatHeader.vue';
+import UsernameModal from '@/components/UsernameModal.vue';
+import { useChaiStore } from '@/stores/chai.store';
 import { ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
-import { useSocket } from '@/useSocket';
+import { storeToRefs } from 'pinia';
+import { inject, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 console.log('--------------------------------------');
