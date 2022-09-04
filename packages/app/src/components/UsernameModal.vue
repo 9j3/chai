@@ -10,7 +10,9 @@
       <div class="">
         <!--body-->
         <div class="text-center p-5 flex-auto justify-center">
-          <h2 class="text-2xl mb-4 text-slate-700">Welcome to the chatspace</h2>
+          <h2 class="text-2xl mb-4 text-slate-700">
+            Welcome to the chatspace
+          </h2>
           <div>
             <input
               v-model.lazy="i_sender"
