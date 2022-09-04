@@ -91,12 +91,14 @@ socket.on('typing:stop', ({ client }) => {
   </div>
   <div class="p-5 h-screen w-full bg-blue-600">
     <div
-      class="h-full bg-white overflow-hidden flex flex-col rounded-xl overflow-hidden shadow-xl"
+      class="h-full bg-white flex flex-col rounded-xl overflow-hidden shadow-xl"
     >
       <!-- body -->
       <div class="h-full flex">
         <div class="h-full w-64 border-r pt-10 px-5">
-          <p class="text-xs font-medium text-gray-400">TEXT-CHANNELS</p>
+          <p class="text-xs font-medium text-gray-400">
+            TEXT-CHANNELS
+          </p>
 
           <router-link
             v-for="room in rooms"
@@ -125,13 +127,16 @@ socket.on('typing:stop', ({ client }) => {
               :key="msg.id"
               class="w-full flex flex-start overflow-y-auto"
             >
-              <div v-if="msg.sender !== sender" class="w-1/2">
+              <div
+                v-if="msg.sender !== sender"
+                class="w-1/2"
+              >
                 <div class="flex items-center">
                   <img
                     class="h-5 w-5 overflow-hidden rounded-full"
                     src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                     alt=""
-                  />
+                  >
                   <p class="font-semibold ml-3 text-sm text-slate-600">
                     {{ msg.sender }}
                     <span class="text-slate-400 text-xs">3:21 PM</span>
@@ -146,7 +151,10 @@ socket.on('typing:stop', ({ client }) => {
                   </p>
                 </div>
               </div>
-              <div v-else class="w-full flex justify-end mt-3">
+              <div
+                v-else
+                class="w-full flex justify-end mt-3"
+              >
                 <div class="w-1/2">
                   <div class="flex items-center justify-end">
                     <p class="font-semibold mr-3 text-sm text-slate-600">
@@ -157,7 +165,7 @@ socket.on('typing:stop', ({ client }) => {
                       class="h-5 w-5 overflow-hidden rounded-full"
                       src="https://source.unsplash.com/random/500x500/?face"
                       alt=""
-                    />
+                    >
                   </div>
 
                   <div
@@ -182,7 +190,7 @@ socket.on('typing:stop', ({ client }) => {
                 placeholder="Type your message"
                 @keyup.enter="sendMessage()"
                 @input="startTyping()"
-              />
+              >
               <div class="flex items-center space-x-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -218,7 +226,9 @@ socket.on('typing:stop', ({ client }) => {
           </div>
         </div>
         <div class="h-full w-72 border-l pt-10 px-5">
-          <p class="text-xs font-medium text-gray-400">ONLINE</p>
+          <p class="text-xs font-medium text-gray-400">
+            ONLINE
+          </p>
           <!-- menu-item -->
           <div
             v-for="(clientVal, clientKey) in clients"
@@ -229,7 +239,7 @@ socket.on('typing:stop', ({ client }) => {
               class="h-8 w-8 overflow-hidden rounded-full"
               src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
               alt=""
-            />
+            >
             <div class="flex flex-col">
               <span class="ml-2">{{ clientVal.username }}</span>
               <span class="ml-2 text-slate-300">{{
