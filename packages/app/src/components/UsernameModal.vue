@@ -17,7 +17,7 @@
               type="text"
               class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
               placeholder="Your name"
-            />
+            >
             <button
               class="px-4 rounded-r-lg bg-blue-700 text-white w-1/3 font-bold p-2 uppercase"
               @click.stop="register()"
