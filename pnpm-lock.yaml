@@ -123,7 +123,6 @@ importers:
     specifiers:
       '@heroicons/vue': ^2.0.10
       '@vitejs/plugin-vue': ^3.0.1
-      '@vue-hero-icons/outline': ^1.7.2
       '@vue/eslint-config-airbnb': ^7.0.0
       '@vue/test-utils': ^2.0.2
       autoprefixer: ^10.4.8
@@ -145,7 +144,6 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@heroicons/vue': 2.0.10_vue@3.2.37
-      '@vue-hero-icons/outline': 1.7.2
       axios: 0.27.2
       headlessui: 0.0.0
       pinia: 2.0.21_vue@3.2.37
@@ -1803,12 +1801,6 @@ packages:
       vue: 3.2.37
     dev: true
 
-  /@vue-hero-icons/outline/1.7.2:
-    resolution: {integrity: sha512-mgMpncarjZHXY1K2tyjbYHf53yQG9amroDR9t2iH/umpsN8+f8RNcTy1m131EZ8WBCm8MpF97XpXPV129rvtVg==}
-    dependencies:
-      babel-helper-vue-jsx-merge-props: 2.0.3
-    dev: false
-
   /@vue/compiler-core/3.2.37:
     resolution: {integrity: sha512-81KhEjo7YAOh0vQJoSmAD68wLfYqJvoiD4ulyedzF+OEk/bk6/hx3fTNVfuzugIIaTrOx4PGx6pAiBRe5e9Zmg==}
     dependencies:
@@ -2345,10 +2337,6 @@ packages:
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: true
-
-  /babel-helper-vue-jsx-merge-props/2.0.3:
-    resolution: {integrity: sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg==}
-    dev: false
 
   /babel-jest/28.1.3_@babel+core@7.18.13:
     resolution: {integrity: sha512-epUaPOEWMk3cWX0M/sPvCHHCe9fMFAa/9hXEgKP8nFfNl/jlGkE9ucq9NqkZGXLDduCJYS0UvSlPUwC0S+rH6Q==}
