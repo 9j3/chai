@@ -29,7 +29,7 @@ export class ChatGateway
   @WebSocketServer() wss: Server;
 
   public users: any = {};
-  private userid: any = [];
+  private userId: any = [];
 
   /**
    * Handles the disconnect of a specific user and emits an event to all other users
