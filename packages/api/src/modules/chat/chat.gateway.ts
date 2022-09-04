@@ -63,7 +63,6 @@ export class ChatGateway
    */
   @SubscribeMessage('setUsername')
   setUsername(client: Socket, username: string) {
-    console.log(username);
     this.users[client.id]['username'] = username;
     this.users[client.id]['isTyping'] = false;
 
