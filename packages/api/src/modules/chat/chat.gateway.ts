@@ -70,7 +70,7 @@ export class ChatGateway
     this.users[client.id]['username'] = username;
     this.users[client.id]['isTyping'] = false;
 
-    // notify all connected client's that there is a new connection
+    // notify all connected clients that there is a new connection
     client.broadcast.emit('client:connect', {
       id: client.id,
       client: this.users[client.id],
