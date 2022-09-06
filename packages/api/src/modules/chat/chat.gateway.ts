@@ -93,7 +93,7 @@ export class ChatGateway
   stopTyping(client: Socket) {
     console.log(`Client ${client.id} stopped typing`);
 
-    // tell other clients that client is typing
+    // tell other clients that client has stopped typing
     client.broadcast.emit('typing:stop', {
       client: client.id,
     });
