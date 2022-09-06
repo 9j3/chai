@@ -39,7 +39,7 @@ export class ChatGateway
     // user is offline
     console.log('DISCONNECT');
 
-    // notify all connected client's that there is a new leave
+    // notify all connected clients that there is a new disconnect
     client.broadcast.emit('client:disconnect', {
       id: client.id,
       client: this.users[client.id],
