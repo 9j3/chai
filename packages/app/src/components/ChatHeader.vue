@@ -22,8 +22,8 @@
   </div>
 </template>
 <script setup>
-import { CheckCircleIcon } from '@heroicons/vue/20/solid';
 import { useChaiStore } from '@/stores/chai.store';
+import { CheckCircleIcon } from '@heroicons/vue/20/solid';
 import { storeToRefs } from 'pinia';
 
 const chaiStore = useChaiStore();
