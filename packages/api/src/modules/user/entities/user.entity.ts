@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { Participant } from '../../chat/entities/participant.entity';
 
@@ -33,6 +35,10 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Participant, (participant) => participant.user)
   participants: Participant[];
+
+  @ManyToMany(() => User)
+  @JoinTable({ joinColumn: { name: 'user_friend' } })
+  friends: User[];
 
   @CreateDateColumn({
     type: 'timestamp',

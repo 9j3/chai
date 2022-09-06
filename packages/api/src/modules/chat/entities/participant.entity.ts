@@ -7,9 +7,11 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
+
 import { User } from '../../user/entities/user.entity';
+import { Conversation } from './conversation.entity';
 
 @Entity({
   name: 'participant',
@@ -25,6 +27,9 @@ export class Participant extends BaseEntity {
   @ManyToOne(() => User, (user) => user.participants)
   @JoinColumn()
   public user: User;
+
+  @ManyToOne(() => Conversation, (conversation) => conversation.participants)
+  conversation: Conversation;
 
   @CreateDateColumn({
     type: 'timestamp',

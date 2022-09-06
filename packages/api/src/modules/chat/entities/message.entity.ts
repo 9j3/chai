@@ -7,8 +7,10 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
+
+import { User } from '../../user/entities/user.entity';
 import { Conversation } from './conversation.entity';
 
 @Entity({
@@ -25,12 +27,16 @@ export class Message extends BaseEntity {
   @Column()
   public content: string;
 
-  @Column({ default: false })
-  public see: boolean;
+  @Column('timestamp')
+  public dateRead: Date;
 
   @ManyToOne(() => Conversation)
-  @JoinColumn({ name: 'chat_id' })
+  @JoinColumn({ name: 'conversation_id' })
   public room: Conversation;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'sender_id' })
+  public sender: User;
 
   @CreateDateColumn({
     type: 'timestamp',

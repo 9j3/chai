@@ -3,11 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
+
 import { User } from '../../user/entities/user.entity';
+import { Participant } from './participant.entity';
 
 @Entity({
   name: 'conversation',
@@ -16,9 +19,12 @@ export class Conversation extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @OneToOne(() => User)
-  @JoinColumn()
-  creator: User;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'creator_id' })
+  public creator: User;
+
+  @OneToMany(() => Participant, (participant) => participant.conversation)
+  participants: Participant[];
 
   @CreateDateColumn({
     type: 'timestamp',
