@@ -1,8 +1,7 @@
 const DOMGlobals = ['window', 'document'];
 
-// eslint-disable-next-line no-restricted-globals
 module.exports = {
-  extends: ['plugin:vue/vue3-recommended'],
+  extends: ['plugin:vue/vue3-recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
   },

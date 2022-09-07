@@ -13,20 +13,20 @@ export class ChatController {
 
   @Get('/rooms')
   public getRooms() {
-    return [
-      {
-        roomId: 1,
+    return {
+      1: {
+        msgCnt: 0,
         name: 'Chatroom #1',
       },
-      {
-        roomId: 2,
+      2: {
+        msgCnt: 0,
         name: 'Chatroom #2',
       },
-      {
-        roomId: 3,
-        name: 'Important News',
+      3: {
+        msgCnt: 0,
+        name: 'Chatroom #3',
       },
-    ];
+    };
   }
 
   @Get('/messages/:roomId')
