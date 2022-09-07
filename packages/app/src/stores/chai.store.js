@@ -8,7 +8,7 @@ export const useChaiStore = defineStore('chai', {
       socketConnected: false,
       selectedRoom: 1,
       clients: {},
-      rooms: [],
+      rooms: {},
       messages: [
         {
           id: 1,
@@ -35,8 +35,7 @@ export const useChaiStore = defineStore('chai', {
   },
   getters: {
     getRoomById: (state) => {
-      return (roomId) =>
-        state.rooms.find((room) => room.roomId === Number(roomId));
+      return (roomId) => state.rooms[roomId];
     },
   },
 });

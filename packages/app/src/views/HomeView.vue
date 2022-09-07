@@ -20,6 +20,8 @@ const socket = inject('$SOCKET');
 chaiStore.getRooms();
 
 const message = ref();
+const chatSegments = ref([]);
+
 let isTypingTimeout;
 
 const sendMessage = () => {
@@ -53,18 +55,19 @@ const startTyping = () => {
 watch(
   () => route.params.id,
   (id, oldId) => {
-    console.log("param changed")
+    console.log('param changed');
     socket.emit('room:switch', {
       before: oldId,
       after: id,
     });
-    
-    chaiStore.$patch({
-      messages: [],
+
+    chaiStore.$patch((state) => {
+      state.messages = [];
+      state.rooms[id].msgCnt = 0;
+      state.rooms[oldId].msgCnt = 0;
     });
 
-    chaiStore.getMessages(id)
-
+    chaiStore.getMessages(id);
   },
 );
 
@@ -79,6 +82,14 @@ socket.on('connection:ack', (clients) => {
 socket.on('message:new', (data) => {
   chaiStore.$patch((state) => {
     state.messages.push(data);
+  });
+
+  chatSegments.value[chatSegments.value.length - 1].scrollIntoView(false);
+});
+
+socket.on('message:push', ({ room }) => {
+  chaiStore.$patch((state) => {
+    state.rooms[room]['msgCnt']++;
   });
 });
 
@@ -117,48 +128,51 @@ socket.on('typing:stop', ({ client }) => {
     >
       <!-- body -->
       <div class="h-full flex">
-        <div class="h-full w-64 border-r pt-10 px-5">
-          <p class="text-xs font-medium text-gray-400">
-            TEXT-CHANNELS
-          </p>
+        <div class="h-full w-80 border-r pt-10 px-5">
+          <p class="text-xs font-medium text-gray-400">TEXT-CHANNELS</p>
 
           <router-link
-            v-for="room in rooms"
-            :key="room.roomId"
+            v-for="(room, roomId) in rooms"
+            :key="roomId"
             :to="{
               name: 'chat',
               params: {
-                id: room.roomId,
+                id: roomId,
               },
             }"
-            class="mt-4 py-1.5 text-sm font-medium text-gray-600 group cursor-pointer flex items-center"
+            class="mt-4 py-1.5 align-middle text-sm font-medium text-gray-600 group cursor-pointer flex items-end"
             active-class="text-blue-400"
           >
             <span @click="alert('foo')" />
             <ChatBubbleLeftIcon class="w-5 mr-2" />
-            {{ room.name }}
+            <span class="flex-grow">{{ room.name }}</span>
+            <span
+              v-if="
+                chaiStore.getRoomById(roomId).msgCnt &&
+                roomId !== $route.params.id
+              "
+              class="inline-block py-1 px-2 rounded-xl leading-none text-center whitespace-nowrap align-baseline bg-red-400 text-white ml-2 float-right"
+              >{{ chaiStore.getRoomById(roomId).msgCnt }}</span
+            >
           </router-link>
         </div>
 
         <div class="w-full h-full flex flex-col">
           <chat-header />
-          <div class="h-full px-10 py-4">
+          <div class="h-full overflow-auto px-10 py-4">
             <!-- messages -->
             <div
               v-for="msg in messages"
               :key="msg.id"
               class="w-full flex flex-start overflow-y-auto"
             >
-              <div
-                v-if="msg.sender !== sender"
-                class="w-1/2"
-              >
+              <div v-if="msg.sender !== sender" class="w-1/2">
                 <div class="flex items-center">
                   <img
                     class="h-5 w-5 overflow-hidden rounded-full"
                     src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
                     alt=""
-                  >
+                  />
                   <p class="font-semibold ml-3 text-sm text-slate-600">
                     {{ msg.sender }}
                     <span class="text-slate-400 text-xs">3:21 PM</span>
@@ -168,15 +182,12 @@ socket.on('typing:stop', ({ client }) => {
                 <div
                   class="mt-3 w-full bg-slate-50 p-4 rounded-b-xl rounded-tr-xl"
                 >
-                  <p class="text-sm text-slate-500">
+                  <p ref="chatSegments" class="text-sm text-slate-500">
                     {{ msg.content }}
                   </p>
                 </div>
               </div>
-              <div
-                v-else
-                class="w-full flex justify-end mt-3"
-              >
+              <div v-else class="w-full flex justify-end mt-3">
                 <div class="w-1/2">
                   <div class="flex items-center justify-end">
                     <p class="font-semibold mr-3 text-sm text-slate-600">
@@ -187,7 +198,7 @@ socket.on('typing:stop', ({ client }) => {
                       class="h-5 w-5 overflow-hidden rounded-full"
                       src="https://source.unsplash.com/random/500x500/?face"
                       alt=""
-                    >
+                    />
                   </div>
 
                   <div
@@ -212,7 +223,7 @@ socket.on('typing:stop', ({ client }) => {
                 placeholder="Type your message"
                 @keyup.enter="sendMessage()"
                 @input="startTyping()"
-              >
+              />
               <div class="flex items-center space-x-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -247,10 +258,8 @@ socket.on('typing:stop', ({ client }) => {
             </div>
           </div>
         </div>
-        <div class="h-full w-72 border-l pt-10 px-5">
-          <p class="text-xs font-medium text-gray-400">
-            ONLINE
-          </p>
+        <div class="h-full w-64 border-l pt-10 px-5">
+          <p class="text-xs font-medium text-gray-400">ONLINE</p>
           <!-- menu-item -->
           <div
             v-for="(clientVal, clientKey) in clients"
@@ -261,7 +270,7 @@ socket.on('typing:stop', ({ client }) => {
               class="h-8 w-8 overflow-hidden rounded-full"
               src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnN8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=500"
               alt=""
-            >
+            />
             <div class="flex flex-col">
               <span class="ml-2">{{ clientVal.username }}</span>
               <span class="ml-2 text-slate-300">{{

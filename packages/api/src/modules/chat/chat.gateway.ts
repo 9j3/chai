@@ -121,7 +121,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     console.dir(this.chatRepository.chats);
 
+    // tell all clients in the same room
     this.wss.to(data.room).emit('message:new', data.message);
+
+    // tell all other clients, there's a new message in a specific room
+    this.wss.emit('message:push', {
+      room: data.room,
+    });
   }
 
   @SubscribeMessage('room:switch')
