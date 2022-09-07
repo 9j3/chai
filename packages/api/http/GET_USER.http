@@ -1,6 +1,0 @@
-GET http://localhost:3000/api/chat/clients
-Content-Type: application/json
-
-
-
-###

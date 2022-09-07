@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ChatService } from './chat.service';
 import { ChatGateway } from './chat.gateway';
+import { ChatService } from './chat.service';
 
 @Controller('/api/chat')
 export class ChatController {
@@ -9,14 +9,6 @@ export class ChatController {
     private readonly sockets: ChatGateway,
   ) {
     this.chats = chats;
-  }
-
-  @Get('/:sender/:receiver')
-  public async getChatHistory(
-    @Param('sender') senderId,
-    @Param('receiver') receiverId,
-  ) {
-    return await this.chats.getChatsByPair(senderId, receiverId);
   }
 
   @Get('/rooms')
@@ -35,6 +27,12 @@ export class ChatController {
         name: 'Important News',
       },
     ];
+  }
+
+  @Get('/messages/:roomId')
+  public getMessagesByRoom(@Param() { roomId }) {
+    console.log('getMessagesByRoom', roomId);
+    return this.chats.getChatsByRoomId(roomId);
   }
 
   @Get('/clients')

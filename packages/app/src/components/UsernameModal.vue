@@ -46,8 +46,8 @@ console.log(socket);
 
 const register = () => {
   socket.connect();
-  socket.emit('setUsername', i_sender.value);
-  socket.emit('joinRoom', route.params.id);
+  socket.emit('client:init', i_sender.value);
+  socket.emit('room:join', route.params.id);
   chaiStore.$patch({
     sender: i_sender.value,
   });
