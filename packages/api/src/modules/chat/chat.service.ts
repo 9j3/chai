@@ -3,7 +3,8 @@ import { ChatRepository } from './chat.repository';
 
 export interface Chat {
   messageId: string;
-  from: string;
+  roomId: number;
+  sender: string;
   to: string;
   dateSent: Date;
   dateRead?: Date;
@@ -22,15 +23,8 @@ export class ChatService {
     this.chats = chats;
   }
 
-  /**
-   *
-   * @param sender
-   * @param receiver
-   */
-  public async getChatsByPair(
-    sender: string,
-    receiver: string,
-  ): Promise<Chat[]> {
-    return this.chats.findPair(sender, receiver);
+  public getChatsByRoomId(roomId: number) {
+    console.log('service::getChatsByRoomId', roomId);
+    return this.chats.find('roomId', roomId);
   }
 }

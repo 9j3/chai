@@ -29,7 +29,7 @@ const sendMessage = () => {
     sender: sender.value,
   };
 
-  socket.emit('sendMessage', {
+  socket.emit('message:new', {
     room: route.params.id,
     message: msg,
   });
@@ -48,30 +48,36 @@ const startTyping = () => {
   }
 };
 
+
 // ROUTE WATCHER
 
 watch(
   () => route.params.id,
   (id, oldId) => {
-    socket.emit('switchRoom', {
+    console.log("param changed")
+    socket.emit('room:switch', {
       before: oldId,
       after: id,
     });
+    
     chaiStore.$patch({
       messages: [],
     });
+
+    chaiStore.getMessages(id)
+
   },
 );
 
 // EVENTS
 
-socket.on('acknowledgeConnection', (clients) => {
+socket.on('connection:ack', (clients) => {
   chaiStore.$patch((state) => {
     state.clients = clients;
   });
 });
 
-socket.on('newMessage', (data) => {
+socket.on('message:new', (data) => {
   chaiStore.$patch((state) => {
     state.messages.push(data);
   });

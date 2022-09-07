@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
-  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { ChatRepository } from './chat.repository';
 
 export interface Message {
   sender: string;
-  value: string;
+  content: string;
   id: number;
   dateSent?: Date;
 }
@@ -23,13 +23,13 @@ export interface Message {
   },
 })
 @Injectable()
-export class ChatGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-{
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() wss: Server;
 
   public users: any = {};
   private userId: any = [];
+
+  constructor(private chatRepository: ChatRepository) {}
 
   /**
    * Handles the disconnect of a specific user and emits an event to all other users
@@ -65,7 +65,7 @@ export class ChatGateway
    * @param client
    * @param username
    */
-  @SubscribeMessage('setUsername')
+  @SubscribeMessage('client:init')
   setUsername(client: Socket, username: string) {
     this.users[client.id]['username'] = username;
     this.users[client.id]['isTyping'] = false;
@@ -77,7 +77,7 @@ export class ChatGateway
     });
 
     // send message only to new user
-    this.wss.to(client.id).emit('acknowledgeConnection', this.users);
+    this.wss.to(client.id).emit('connection:ack', this.users);
   }
 
   @SubscribeMessage('typing:start')
@@ -100,26 +100,31 @@ export class ChatGateway
   }
 
   /**
-   * Hook called after server is initialised
-   * @param server
-   */
-  afterInit(server: Server): any {}
-
-  /**
    * Handler when a message is sent
    * @param client
    * @param data
    */
-  @SubscribeMessage('sendMessage')
+  @SubscribeMessage('message:new')
   async handleMessage(
     client: Socket,
     data: { message: Message; room: string },
   ): Promise<void> {
     console.dir(`New message to room ${data.room}. value ${data.message}`);
-    this.wss.to(data.room).emit('newMessage', data.message);
+
+    this.chatRepository.create(
+      this.users[client.id].username,
+      '',
+      data.message.content,
+      new Date(),
+      Number(data.room),
+    );
+
+    console.dir(this.chatRepository.chats);
+
+    this.wss.to(data.room).emit('message:new', data.message);
   }
 
-  @SubscribeMessage('switchRoom')
+  @SubscribeMessage('room:switch')
   switchRoom(client: Socket, data: { before: number; after: number }) {
     console.dir(
       `Client ${client.id} switches from room ${data.before} in room ${data.after}`,
@@ -134,7 +139,7 @@ export class ChatGateway
    * @param client
    * @param room
    */
-  @SubscribeMessage('joinRoom')
+  @SubscribeMessage('room:join')
   handleJoinRoom(client: Socket, room: string): void {
     console.dir(`Client ${client.id} joins room ${room}`);
     client.join(room);
