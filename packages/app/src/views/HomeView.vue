@@ -35,6 +35,7 @@ const sendMessage = () => {
     room: route.params.id,
     message: msg,
   });
+  message.value = '';
 };
 
 const startTyping = () => {
