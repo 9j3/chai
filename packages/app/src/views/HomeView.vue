@@ -25,17 +25,19 @@ const chatSegments = ref([]);
 let isTypingTimeout;
 
 const sendMessage = () => {
-  const msg = {
-    id: messages.value.length + 1,
-    content: message.value,
-    sender: sender.value,
-  };
+  if (message.value) {
+    const msg = {
+      id: messages.value.length + 1,
+      content: message.value,
+      sender: sender.value,
+    };
 
-  socket.emit('message:new', {
-    room: route.params.id,
-    message: msg,
-  });
-  message.value = '';
+    socket.emit('message:new', {
+      room: route.params.id,
+      message: msg,
+    });
+    message.value = '';
+  }
 };
 
 const startTyping = () => {
