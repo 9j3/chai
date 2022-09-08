@@ -129,6 +129,7 @@ socket.on('typing:stop', ({ client }) => {
     >
       <!-- body -->
       <div class="h-full flex">
+        <!-- left sidebar -->
         <div class="h-full w-80 border-r pt-10 px-5">
           <p class="text-xs font-medium text-gray-400">TEXT-CHANNELS</p>
 
@@ -157,6 +158,7 @@ socket.on('typing:stop', ({ client }) => {
             >
           </router-link>
         </div>
+        <!-- chat window -->
 
         <div class="w-full h-full flex flex-col">
           <chat-header />
@@ -205,6 +207,7 @@ socket.on('typing:stop', ({ client }) => {
               </div>
             </div>
           </div>
+          <!-- input box -->
           <div class="w-full px-5 py-3">
             <div
               class="h-12 flex justify-between px-3 items-center border border-transparent bg-slate-50 focus-within:border-slate-300 rounded-lg"
@@ -221,8 +224,8 @@ socket.on('typing:stop', ({ client }) => {
           </div>
         </div>
         <div class="h-full w-64 border-l pt-10 px-5">
+          <!-- user list -->
           <p class="text-xs font-medium text-gray-400">ONLINE</p>
-          <!-- menu-item -->
           <div
             v-for="(clientVal, clientKey) in clients"
             :key="clientKey"
