@@ -167,7 +167,7 @@ socket.on('typing:stop', ({ client }) => {
               :key="msg.id"
               class="w-full flex flex-start overflow-y-auto"
             >
-              <div v-if="msg.sender !== sender" class="w-1/2">
+              <div v-if="msg.sender !== sender">
                 <div class="flex items-center">
                   <img
                     class="h-5 w-5 overflow-hidden rounded-full"
@@ -181,7 +181,7 @@ socket.on('typing:stop', ({ client }) => {
                 </div>
 
                 <div
-                  class="mt-3 w-full bg-slate-50 p-4 rounded-b-xl rounded-tr-xl"
+                  class="mt-3 float-left bg-slate-50 p-4 rounded-b-xl rounded-tr-xl"
                 >
                   <p ref="chatSegments" class="text-sm text-slate-500">
                     {{ msg.content }}
@@ -189,7 +189,7 @@ socket.on('typing:stop', ({ client }) => {
                 </div>
               </div>
               <div v-else class="w-full flex justify-end mt-3">
-                <div class="w-1/2">
+                <div>
                   <div class="flex items-center justify-end">
                     <p class="font-semibold mr-3 text-sm text-slate-600">
                       Me <span class="text-slate-400 text-xs">3:25 PM</span>
@@ -203,7 +203,7 @@ socket.on('typing:stop', ({ client }) => {
                   </div>
 
                   <div
-                    class="mt-3 w-full bg-blue-500 p-4 rounded-b-xl rounded-tl-xl"
+                    class="mt-3 float-right bg-blue-500 p-4 rounded-b-xl rounded-tl-xl"
                   >
                     <p class="text-sm text-white break-words">
                       {{ msg.content }}
