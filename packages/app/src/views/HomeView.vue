@@ -180,7 +180,9 @@ socket.on('typing:stop', ({ client }) => {
                   />
                   <p class="font-semibold ml-3 text-sm text-slate-600">
                     {{ msg.sender }}
-                    <span class="text-slate-400 text-xs">3:21 PM</span>
+                    <span class="text-slate-400 text-xs">
+                      {{ msg.dateSent }}
+                    </span>
                   </p>
                 </div>
 
@@ -195,7 +197,9 @@ socket.on('typing:stop', ({ client }) => {
               <div v-else class="w-full flex justify-end mt-3">
                 <div>
                   <div class="flex items-center justify-end">
-                    <p class="text-slate-400 text-xs">3:25 PM</p>
+                    <p class="text-slate-400 text-xs">
+                      {{ msg.dateSent }}
+                    </p>
                   </div>
 
                   <div
