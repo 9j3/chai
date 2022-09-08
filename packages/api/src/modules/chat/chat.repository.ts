@@ -7,17 +7,7 @@ export class ChatRepository {
   public readonly chats: Chat[];
 
   public constructor() {
-    this.chats = [
-      {
-        messageId: randomUUID(),
-        sender: 'Bruno Hammer',
-        to: '844dd213-3947-4b10-8242-ffdc92d2adfa',
-        dateSent: new Date('2022-09-01T22:19:00'),
-        dateRead: new Date('2022-09-01T22:20:00'),
-        roomId: 1,
-        content: 'Hello World',
-      },
-    ];
+    this.chats = [];
   }
 
   /**

@@ -9,13 +9,7 @@ export const useChaiStore = defineStore('chai', {
       selectedRoom: 1,
       clients: {},
       rooms: {},
-      messages: [
-        {
-          id: 1,
-          content: 'Heute alle vor Ort!',
-          sender: 'Bruno Hammer',
-        },
-      ],
+      messages: [],
     };
   },
   actions: {
