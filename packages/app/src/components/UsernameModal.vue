@@ -43,11 +43,13 @@ const i_sender = ref();
 console.log(socket);
 
 const register = () => {
-  socket.connect();
-  socket.emit('client:init', i_sender.value);
-  socket.emit('room:join', route.params.id);
-  chaiStore.$patch({
-    sender: i_sender.value,
-  });
+  if (i_sender.value) {
+    socket.connect();
+    socket.emit('client:init', i_sender.value);
+    socket.emit('room:join', route.params.id);
+    chaiStore.$patch({
+      sender: i_sender.value,
+    });
+  }
 };
 </script>
