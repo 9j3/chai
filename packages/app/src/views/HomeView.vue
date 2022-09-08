@@ -1,6 +1,8 @@
 <script setup>
+import AlertModal from '@/components/AlertModal.vue';
 import ChatHeader from '@/components/ChatHeader.vue';
 import UsernameModal from '@/components/UsernameModal.vue';
+
 import { useChaiStore } from '@/stores/chai.store';
 import { ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import { storeToRefs } from 'pinia';
@@ -21,6 +23,10 @@ chaiStore.getRooms();
 
 const message = ref();
 const chatSegments = ref([]);
+
+const modalHeader = ref('');
+const modalMessage = ref('');
+const showModal = ref(false);
 
 let isTypingTimeout;
 
@@ -119,12 +125,28 @@ socket.on('typing:stop', ({ client }) => {
     state.clients[client].isTyping = false;
   });
 });
+
+socket.on('exception', (ex) => {
+  console.log(ex);
+  modalHeader.value = 'SPAM DETECTED';
+  modalMessage.value =
+    'Please do not spam, otherwise we will block your IP-Address for 10min';
+
+  chaiStore.$patch((state) => {
+    state.showModal = true;
+  });
+});
 </script>
 
 <template>
   <div v-if="!sender">
     <username-modal />
   </div>
+  <AlertModal
+    :visible="showModal"
+    :header="modalHeader"
+    :message="modalMessage"
+  />
   <div class="p-5 h-screen w-full bg-blue-600">
     <div
       class="h-full bg-white flex flex-col rounded-xl overflow-hidden shadow-xl"

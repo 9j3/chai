@@ -7,6 +7,7 @@ export const useChaiStore = defineStore('chai', {
       sender: undefined,
       socketConnected: false,
       selectedRoom: 1,
+      showModal: false,
       clients: {},
       rooms: {},
       messages: [],
