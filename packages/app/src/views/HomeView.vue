@@ -191,15 +191,7 @@ socket.on('typing:stop', ({ client }) => {
               <div v-else class="w-full flex justify-end mt-3">
                 <div>
                   <div class="flex items-center justify-end">
-                    <p class="font-semibold mr-3 text-sm text-slate-600">
-                      Me <span class="text-slate-400 text-xs">3:25 PM</span>
-                    </p>
-
-                    <img
-                      class="h-5 w-5 overflow-hidden rounded-full"
-                      src="https://source.unsplash.com/random/500x500/?face"
-                      alt=""
-                    />
+                    <p class="text-slate-400 text-xs">3:25 PM</p>
                   </div>
 
                   <div
