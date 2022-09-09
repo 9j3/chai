@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/chai/src",
+  "monorepo": true,
+  "root": "apps/chai",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/chai/tsconfig.app.json"
+  },
+  "projects": {
+    "chai": {
+      "type": "application",
+      "root": "apps/chai",
+      "entryFile": "main",
+      "sourceRoot": "apps/chai/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/chai/tsconfig.app.json"
+      }
+    },
+    "user": {
+      "type": "application",
+      "root": "apps/user",
+      "entryFile": "main",
+      "sourceRoot": "apps/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user/tsconfig.app.json"
+      }
+    }
+  }
+}
