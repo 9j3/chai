@@ -22,7 +22,8 @@ const socket = inject('$SOCKET');
 chaiStore.getRooms();
 
 const message = ref();
-const chatSegments = ref([]);
+const receivedChatSegments = ref([]);
+const sentChatSegments = ref([]);
 
 const modalHeader = ref('');
 const modalMessage = ref('');
@@ -93,7 +94,12 @@ socket.on('message:new', (data) => {
     state.messages.push(data);
   });
 
-  chatSegments.value[chatSegments.value.length - 1].scrollIntoView(false);
+  // todo: only scrolls 2nd to last item into view,
+  // as the refs haven't been updated at this point.
+  // that also means, that on the first sent and received message, a TypeError occurs
+  if (data.sender === sender.value)
+    sentChatSegments.value.at(-1).scrollIntoView(false);
+  else receivedChatSegments.value.at(-1).scrollIntoView(false);
 });
 
 socket.on('message:push', ({ room }) => {
@@ -194,6 +200,7 @@ socket.on('exception', (ex) => {
               class="w-full flex flex-start overflow-y-auto"
             >
               <div v-if="msg.sender !== sender">
+                <!-- received messages -->
                 <div class="flex items-center">
                   <img
                     class="h-5 w-5 overflow-hidden rounded-full"
@@ -211,11 +218,12 @@ socket.on('exception', (ex) => {
                 <div
                   class="mt-3 float-left bg-slate-50 p-4 rounded-b-xl rounded-tr-xl"
                 >
-                  <p ref="chatSegments" class="text-sm text-slate-500">
+                  <p ref="receivedChatSegments" class="text-sm text-slate-500">
                     {{ msg.content }}
                   </p>
                 </div>
               </div>
+              <!-- sent messages -->
               <div v-else class="w-full flex justify-end mt-3">
                 <div>
                   <div class="flex items-center justify-end">
@@ -227,7 +235,10 @@ socket.on('exception', (ex) => {
                   <div
                     class="mt-3 float-right bg-blue-500 p-4 rounded-b-xl rounded-tl-xl"
                   >
-                    <p class="text-sm text-white break-words">
+                    <p
+                      ref="sentChatSegments"
+                      class="text-sm text-white break-words"
+                    >
                       {{ msg.content }}
                     </p>
                   </div>
