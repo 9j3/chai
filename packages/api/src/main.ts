@@ -10,7 +10,7 @@ async function bootstrap() {
   app.enableCors();
 
   const port = parseInt(process.env.PORT as string) || 3000;
-  const host = process.env.HOST || '192.168.40.75';
+  const host = process.env.HOST || '127.0.0.1';
 
   app.useWebSocketAdapter(new IoAdapter(app));
 

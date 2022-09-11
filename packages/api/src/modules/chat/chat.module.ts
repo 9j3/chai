@@ -9,8 +9,8 @@ import { WsThrottlerGuard } from './guards/throttler.guard';
 @Module({
   imports: [
     ThrottlerModule.forRoot({
-      ttl: 7,
-      limit: 5,
+      ttl: 60,
+      limit: 15,
     }),
   ],
   controllers: [ChatController],
