@@ -136,7 +136,7 @@ socket.on('exception', (ex) => {
   console.log(ex);
   modalHeader.value = 'SPAM DETECTED';
   modalMessage.value =
-    'Please do not spam, otherwise we will block your IP-Address for 10min';
+    'Please do not spam, otherwise your IP-Address will blocked for 10 minutes!';
 
   chaiStore.$patch((state) => {
     state.showModal = true;
