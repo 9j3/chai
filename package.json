@@ -12,12 +12,12 @@
     "devtools": "vue-devtools"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.8",
+    "@types/jest": "^29.0.0",
     "@types/node": "^18.7.13",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "@vue/devtools": "^6.2.1",
-    "eslint": "8.22.0",
+    "eslint": "8.23.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
