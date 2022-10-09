@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -8,6 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatRepository } from './chat.repository';
+import { WsThrottlerGuard } from './guards/throttler.guard';
 
 export interface Message {
   sender: string;
@@ -104,6 +105,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    * @param client
    * @param data
    */
+  @UseGuards(WsThrottlerGuard)
   @SubscribeMessage('message:new')
   async handleMessage(
     client: Socket,
@@ -130,6 +132,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(WsThrottlerGuard)
   @SubscribeMessage('room:switch')
   switchRoom(client: Socket, data: { before: number; after: number }) {
     console.dir(

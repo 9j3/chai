@@ -1,6 +1,8 @@
 <script setup>
+import AlertModal from '@/components/AlertModal.vue';
 import ChatHeader from '@/components/ChatHeader.vue';
 import UsernameModal from '@/components/UsernameModal.vue';
+
 import { useChaiStore } from '@/stores/chai.store';
 import { ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import { storeToRefs } from 'pinia';
@@ -20,7 +22,12 @@ const socket = inject('$SOCKET');
 chaiStore.getRooms();
 
 const message = ref();
-const chatSegments = ref([]);
+const receivedChatSegments = ref([]);
+const sentChatSegments = ref([]);
+
+const modalHeader = ref('');
+const modalMessage = ref('');
+const showModal = ref(false);
 
 let isTypingTimeout;
 
@@ -87,7 +94,12 @@ socket.on('message:new', (data) => {
     state.messages.push(data);
   });
 
-  chatSegments.value[chatSegments.value.length - 1].scrollIntoView(false);
+  // todo: only scrolls 2nd to last item into view,
+  // as the refs haven't been updated at this point.
+  // that also means, that on the first sent and received message, a TypeError occurs
+  if (data.sender === sender.value)
+    sentChatSegments.value.at(-1).scrollIntoView(false);
+  else receivedChatSegments.value.at(-1).scrollIntoView(false);
 });
 
 socket.on('message:push', ({ room }) => {
@@ -119,12 +131,28 @@ socket.on('typing:stop', ({ client }) => {
     state.clients[client].isTyping = false;
   });
 });
+
+socket.on('exception', (ex) => {
+  console.log(ex);
+  modalHeader.value = 'SPAM DETECTED';
+  modalMessage.value =
+    'Please do not spam, otherwise your IP-Address will blocked for 10 minutes!';
+
+  chaiStore.$patch((state) => {
+    state.showModal = true;
+  });
+});
 </script>
 
 <template>
   <div v-if="!sender">
     <username-modal />
   </div>
+  <AlertModal
+    :visible="showModal"
+    :header="modalHeader"
+    :message="modalMessage"
+  />
   <div class="p-5 h-screen w-full bg-blue-600">
     <div
       class="h-full bg-white flex flex-col rounded-xl overflow-hidden shadow-xl"
@@ -172,6 +200,7 @@ socket.on('typing:stop', ({ client }) => {
               class="w-full flex flex-start overflow-y-auto"
             >
               <div v-if="msg.sender !== sender">
+                <!-- received messages -->
                 <div class="flex items-center">
                   <img
                     class="h-5 w-5 overflow-hidden rounded-full"
@@ -189,11 +218,12 @@ socket.on('typing:stop', ({ client }) => {
                 <div
                   class="mt-3 float-left bg-slate-50 p-4 rounded-b-xl rounded-tr-xl"
                 >
-                  <p ref="chatSegments" class="text-sm text-slate-500">
+                  <p ref="receivedChatSegments" class="text-sm text-slate-500">
                     {{ msg.content }}
                   </p>
                 </div>
               </div>
+              <!-- sent messages -->
               <div v-else class="w-full flex justify-end mt-3">
                 <div>
                   <div class="flex items-center justify-end">
@@ -205,7 +235,10 @@ socket.on('typing:stop', ({ client }) => {
                   <div
                     class="mt-3 float-right bg-blue-500 p-4 rounded-b-xl rounded-tl-xl"
                   >
-                    <p class="text-sm text-white break-words">
+                    <p
+                      ref="sentChatSegments"
+                      class="text-sm text-white break-words"
+                    >
                       {{ msg.content }}
                     </p>
                   </div>

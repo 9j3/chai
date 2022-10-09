@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { ApplicationModule } from './app.module';
 import { IoAdapter } from '@nestjs/platform-socket.io';
+import { ApplicationModule } from './app.module';
 
 declare const module: any;
 
